@@ -3,6 +3,7 @@ package com.example.arvocado_android.ui.main
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.arvocado_android.R
+import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -12,6 +13,7 @@ class MainActivity : AppCompatActivity() {
         init()
     }
     private fun init() {
+        Timber.e("Hello")
 
     }
 }
