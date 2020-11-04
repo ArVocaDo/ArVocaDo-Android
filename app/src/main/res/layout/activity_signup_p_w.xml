@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhiteBrown"
+    tools:context=".ui.signup.SignupPWActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clSignUpP"
+        android:background="@color/colorMain"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="34dp"
+            android:text="2.비밀번호를 적어주세요"
+            android:textColor="@color/colorBrown"
+            android:textSize="20sp"
+            android:paddingVertical="20dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/bolder"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBoldBrown"
+        app:layout_constraintTop_toBottomOf="@id/clSignUpP"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSignUpPw"
+        app:layout_constraintTop_toBottomOf="@id/bolder"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="34dp"
+        android:text="비밀번호"
+        android:textSize="16sp"
+        android:textColor="@color/colorBrown"
+        android:layout_marginTop="46dp"/>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        app:layout_constraintTop_toBottomOf="@id/tvSignUpPw"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="14dp"
+        android:hint="6자리 이상 적어줘!"
+        android:textColor="@color/colorBoldGray"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="34dp"
+        android:background="@drawable/edit_sign_up_bg"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
