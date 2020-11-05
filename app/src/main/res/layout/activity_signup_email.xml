@@ -27,6 +27,17 @@
             android:textSize="20sp"
             android:paddingVertical="20dp"/>
 
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgSignUpECancle"
+            android:src="@drawable/btn_cancel"
+            android:layout_marginRight="24dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
@@ -53,6 +64,7 @@
     <EditText
         android:layout_width="0dp"
         android:layout_height="64dp"
+        android:id="@+id/editSignUpE"
         app:layout_constraintTop_toBottomOf="@id/tvSignUpEmail"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
