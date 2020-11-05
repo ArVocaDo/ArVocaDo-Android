@@ -4,6 +4,50 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.signup.SignupGenderActivity">
+    tools:context=".ui.signup.SignupGenderActivity"
+    android:background="@color/colorWhiteBrown">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clSignUpG"
+        android:background="@color/colorMain"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="34dp"
+            android:text="3.아이의 성별을 선택해주세요"
+            android:textColor="@color/colorBrown"
+            android:textSize="20sp"
+            android:paddingVertical="20dp"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgSignUpGCancle"
+            android:src="@drawable/btn_cancel"
+            android:layout_marginRight="24dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/bolder"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBoldBrown"
+        app:layout_constraintTop_toBottomOf="@id/clSignUpG"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
