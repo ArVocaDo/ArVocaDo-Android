@@ -1,5 +1,7 @@
 package com.example.arvocado_android.network
 
+import com.example.arvocado_android.data.request.LoginRequest
+import com.example.arvocado_android.data.request.SignUpRequest
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -30,9 +32,16 @@ class NetworkManager() {
         .create(NetworkService::class.java)
 
 
+    fun requestLogin(data : LoginRequest) = retrofit.requestLogin(data)
+    fun requestSignUp(data : SignUpRequest) = retrofit.requestSignUp(data)
+    fun requestSignUpEmail(email : String) = retrofit.requestSignUpEmail(email)
+    fun requestCategory() = retrofit.requestCategory()
+    fun requestCategoryWord(c_idx : Int) = retrofit.requestCategoryWord(c_idx)
+
+
 
     private companion object {
-        const val BASE_URL = ""
+        const val BASE_URL = "http://13.209.121.249:3000/"
     }
 }
 

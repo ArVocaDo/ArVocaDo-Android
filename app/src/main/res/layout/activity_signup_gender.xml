@@ -6,6 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.signup.SignupGenderActivity"
     android:background="@color/colorWhiteBrown">
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,7 +23,8 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="34dp"
-            android:text="3.아이의 성별을 선택해주세요"
+            android:fontFamily="@font/cookie_run_b"
+            android:text="4.아이의 성별을 선택해주세요"
             android:textColor="@color/colorBrown"
             android:textSize="20sp"
             android:paddingVertical="20dp"/>
@@ -46,6 +49,65 @@
         android:background="@color/colorBoldBrown"
         app:layout_constraintTop_toBottomOf="@id/clSignUpG"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+
+    <RadioGroup
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/rgSignUpGender"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/bolder"
+        android:layout_marginTop="46dp">
+
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSignUpGBoy"
+        android:layout_marginRight="28dp"
+        android:button="@null"
+        app:layout_constraintTop_toBottomOf="@id/bolder"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/btnSignUpGGirl"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        android:background="@drawable/selector_signup_boy"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnSignUpGGirl"
+        android:button="@null"
+        app:layout_constraintTop_toTopOf="@id/btnSignUpGBoy"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/btnSignUpGBoy"
+        android:background="@drawable/selector_signup_girl"/>
+
+    </RadioGroup>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgSignUpGbefore"
+        android:src="@drawable/btn_before"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/imgSignUpGFinish" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgSignUpGFinish"
+        android:src="@drawable/btn_complete"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@id/imgSignUpGbefore"
+        app:layout_constraintLeft_toRightOf="@id/imgSignUpGbefore"
         app:layout_constraintRight_toRightOf="parent"/>
 
 

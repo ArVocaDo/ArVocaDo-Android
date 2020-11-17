@@ -1,9 +1,138 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.login.LoginActivity">
+    tools:context=".ui.login.LoginActivity"
+    android:orientation="vertical"
+    android:background="@color/colorWhiteBrown">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clLogin"
+        android:background="@color/colorMain"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="34dp"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/cookie_run_b"
+            android:text="로그인"
+            android:textColor="@color/colorBrown"
+            android:textSize="20sp"
+            android:paddingVertical="20dp"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgLoginCancle"
+            android:src="@drawable/btn_cancel"
+            android:layout_marginRight="24dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <ImageView
+        android:id="@+id/bolder"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBoldBrown"
+        app:layout_constraintTop_toBottomOf="@id/clLogin"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvLoginEmail"
+        app:layout_constraintTop_toBottomOf="@id/bolder"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="34dp"
+        android:text="이메일"
+        android:fontFamily="@font/nanum_square_round_b"
+        android:textSize="16sp"
+        android:textColor="@color/colorBrown"
+        android:layout_marginTop="46dp"/>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:id="@+id/editLoginEmail"
+        app:layout_constraintTop_toBottomOf="@id/tvLoginEmail"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="14dp"
+        android:hint="abc@naver.com"
+        android:textColorHint="#b9b9b9"
+        android:inputType="textEmailAddress"
+        android:fontFamily="@font/nanum_square_round_b"
+        android:textColor="@color/colorBoldGray"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="34dp"
+        android:background="@drawable/edit_sign_up_bg"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvLoginPW"
+            app:layout_constraintTop_toBottomOf="@id/editLoginEmail"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="34dp"
+            android:text="비밀번호"
+            android:fontFamily="@font/nanum_square_round_b"
+            android:textSize="16sp"
+            android:includeFontPadding="false"
+            android:textColor="@color/colorBrown"
+            android:layout_marginTop="32dp"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="64dp"
+            android:id="@+id/editLoginPW"
+            app:layout_constraintTop_toBottomOf="@id/tvLoginPW"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="14dp"
+            android:hint="6자리 이상 적어줘!"
+            android:inputType="textPassword"
+            android:fontFamily="@font/nanum_square_round_b"
+            android:textColor="@color/colorBoldGray"
+            android:textSize="18sp"
+            android:includeFontPadding="false"
+            android:textColorHint="#b9b9b9"
+            android:layout_marginHorizontal="34dp"
+            android:background="@drawable/edit_sign_up_bg"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgLogin"
+        app:layout_constraintTop_toBottomOf="@id/editLoginPW"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/btn_login_yellow"
+        android:layout_marginTop="36dp"
+        android:layout_marginBottom="24dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
