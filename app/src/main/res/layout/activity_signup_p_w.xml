@@ -22,7 +22,9 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             android:layout_marginLeft="34dp"
+            android:fontFamily="@font/cookie_run_b"
             android:text="2.비밀번호를 적어주세요"
+            android:includeFontPadding="false"
             android:textColor="@color/colorBrown"
             android:textSize="20sp"
             android:paddingVertical="20dp"/>
@@ -56,21 +58,51 @@
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginLeft="34dp"
         android:text="비밀번호"
+        android:fontFamily="@font/nanum_square_round_b"
         android:textSize="16sp"
+        android:includeFontPadding="false"
         android:textColor="@color/colorBrown"
         android:layout_marginTop="46dp"/>
 
     <EditText
         android:layout_width="0dp"
         android:layout_height="64dp"
+        android:id="@+id/editSignUpP"
         app:layout_constraintTop_toBottomOf="@id/tvSignUpPw"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="14dp"
         android:hint="6자리 이상 적어줘!"
+        android:inputType="textPassword"
+        android:fontFamily="@font/nanum_square_round_b"
         android:textColor="@color/colorBoldGray"
         android:textSize="18sp"
+        android:includeFontPadding="false"
+        android:textColorHint="#b9b9b9"
         android:layout_marginHorizontal="34dp"
         android:background="@drawable/edit_sign_up_bg"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgSignUpPbefore"
+        android:src="@drawable/btn_before"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/imgSignUpPNext" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgSignUpPNext"
+        android:src="@drawable/btn_next"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@id/imgSignUpPbefore"
+        app:layout_constraintLeft_toRightOf="@id/imgSignUpPbefore"
+        app:layout_constraintRight_toRightOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

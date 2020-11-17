@@ -3,6 +3,7 @@ package com.example.arvocado_android
 import android.app.Application
 import androidx.camera.camera2.Camera2Config
 import androidx.camera.core.CameraXConfig
+import com.example.arvocado_android.network.authModule
 import com.example.arvocado_android.network.requestModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -14,7 +15,6 @@ class ArVocaDoApplication : Application(), CameraXConfig.Provider{
 
         GlobalApp = this
 
-
         if(BuildConfig.DEBUG){
             Timber.plant(Timber.DebugTree())
         }
@@ -23,7 +23,8 @@ class ArVocaDoApplication : Application(), CameraXConfig.Provider{
             androidContext(this@ArVocaDoApplication)
             modules(
                 listOf(
-                    requestModule
+                    requestModule,
+                    authModule
                 )
             )
         }

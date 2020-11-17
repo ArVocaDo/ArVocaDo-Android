@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.signup.SignupNicknameActivity"
+    android:background="@color/colorWhiteBrown">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clSignUpE"
+        android:background="@color/colorMain"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            android:layout_marginLeft="34dp"
+            android:includeFontPadding="false"
+            android:fontFamily="@font/cookie_run_b"
+            android:text="3. 닉네임을 적어주세요."
+            android:textColor="@color/colorBrown"
+            android:textSize="20sp"
+            android:paddingVertical="20dp"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgSignUpNCancle"
+            android:src="@drawable/btn_cancel"
+            android:layout_marginRight="24dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/bolder"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBoldBrown"
+        app:layout_constraintTop_toBottomOf="@id/clSignUpE"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvSignUpEmail"
+        app:layout_constraintTop_toBottomOf="@id/bolder"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginLeft="34dp"
+        android:text="닉네임"
+        android:fontFamily="@font/nanum_square_round_b"
+        android:textSize="16sp"
+        android:textColor="@color/colorBrown"
+        android:layout_marginTop="46dp"/>
+
+    <EditText
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:id="@+id/editSignUpN"
+        app:layout_constraintTop_toBottomOf="@id/tvSignUpEmail"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginTop="14dp"
+        android:hint="아보카두"
+        android:textColorHint="#b9b9b9"
+        android:inputType="text"
+        android:fontFamily="@font/nanum_square_round_b"
+        android:textColor="@color/colorBoldGray"
+        android:textSize="18sp"
+        android:layout_marginHorizontal="34dp"
+        android:background="@drawable/edit_sign_up_bg"/>
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgSignUpNBefore"
+        android:src="@drawable/btn_before"
+        android:layout_marginRight="22dp"
+        android:layout_marginBottom="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/imgSignUpNNext" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgSignUpNNext"
+        android:src="@drawable/btn_next"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="@id/imgSignUpNBefore"
+        app:layout_constraintLeft_toRightOf="@id/imgSignUpNBefore"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -20,6 +20,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvMainTitle"
+        android:fontFamily="@font/nanum_square_round_b"
+        android:includeFontPadding="false"
         android:text="놀면서 배우는 영어교실\n 아보카두에 오신걸 환영합니다."
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -66,7 +68,9 @@
         android:layout_marginRight="24dp"
         android:layout_marginBottom="16dp"
         android:text="둘러보기"
+        android:includeFontPadding="false"
         android:textSize="18sp"
+        android:fontFamily="@font/nanum_square_round_b"
         android:textColor="@color/colorBrown"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
