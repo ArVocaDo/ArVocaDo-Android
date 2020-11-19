@@ -105,9 +105,7 @@ class SignupGenderActivity : AppCompatActivity() {
                 if(it.success) {
                     authManager.apply {
                         val token = it.data.token
-                        val refresh = it.data.refreshToken
                         this.token = token
-                        this.refreshToken = refreshToken
                         autoLogin = true
                     }
                   startActivity(CategoryActivity::class,true)
