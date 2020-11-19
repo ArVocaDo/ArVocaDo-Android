@@ -24,15 +24,6 @@ class AuthManager(context: Context) {
             }
         }
 
-    var refreshToken : String
-        get() {
-            return preferences.getString(REFRESH_TOKEN_KEY,null).orEmpty()
-        }
-        set(value) {
-            preferences.edit{
-                putString(REFRESH_TOKEN_KEY,value)
-            }
-        }
 
     var autoLogin: Boolean
         get() {
@@ -62,7 +53,6 @@ class AuthManager(context: Context) {
         const val AUTO_LOGIN_KEY = "auto"
         const val FIRST_KEY = "first"
         const val EXPIRE_KEY = "expire"
-        const val REFRESH_TOKEN_KEY = "refresh"
     }
 }
 

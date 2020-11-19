@@ -46,10 +46,8 @@ class LoginActivity : AppCompatActivity() {
                 onSuccess = {
                     if(it.success) {
                         val token = it.data.token
-                        val refresh = it.data.refreshToken
                         authManager.apply {
                             this.token = token
-                            this.refreshToken = refresh
                             autoLogin = true
                         }
                         startActivity(CategoryActivity::class,true)

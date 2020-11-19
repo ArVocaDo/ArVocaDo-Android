@@ -7,13 +7,16 @@ import android.view.View
 import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.HorizontalItemDecorator
+import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.CategoryAdapter
 import com.example.arvocado_android.ui.camera.CameraActivity
+import com.example.arvocado_android.ui.mypage.MyPageActivity
 import com.kravelteam.kravel_android.util.networkErrorToast
 import com.kravelteam.kravel_android.util.safeEnqueue
+import com.kravelteam.kravel_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_category.*
 import org.koin.android.ext.android.inject
 import org.koin.experimental.property.inject
@@ -29,6 +32,9 @@ class CategoryActivity : AppCompatActivity() {
         setContentView(R.layout.activity_category)
 
         initCategory()
+        imgCategoryUser.setOnDebounceClickListener {
+            startActivity(MyPageActivity::class,false)
+        }
     }
     private fun initCategory() {
 

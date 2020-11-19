@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:name=".ArVocaDoApplication"
@@ -24,9 +25,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.signup.SignupNicknameActivity"
+        <activity android:name=".ui.mypage.ProgressRateActivity"
             android:screenOrientation="landscape"></activity>
-        <activity android:name=".ui.mypage.MyPageActivity" />
+        <activity android:name=".ui.mypage.ScrapWordActivity"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".ui.signup.SignupNicknameActivity"
+            android:screenOrientation="landscape" />
+        <activity android:name=".ui.mypage.MyPageActivity"
+            android:screenOrientation="landscape"/>
         <activity
             android:name=".ui.main.SplashActivity"
             android:screenOrientation="landscape">
