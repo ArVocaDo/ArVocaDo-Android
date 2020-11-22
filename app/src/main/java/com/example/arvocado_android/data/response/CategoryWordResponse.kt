@@ -8,5 +8,6 @@ data class CategoryWordResponse(
     val AR_obj : String,
     val AR_mtl : String,
     val audio_eng : String,
-    val audio_kor : String
+    val audio_kor : String,
+    val index : Int
 )
