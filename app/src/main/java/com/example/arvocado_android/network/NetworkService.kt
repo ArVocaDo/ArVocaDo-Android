@@ -1,7 +1,9 @@
 package com.example.arvocado_android.network
 
+import com.example.arvocado_android.data.request.CategoryProgressResponse
 import com.example.arvocado_android.data.request.LoginRequest
 import com.example.arvocado_android.data.request.SignUpRequest
+import com.example.arvocado_android.data.request.WordScrapResponse
 import com.example.arvocado_android.data.response.BaseResponse
 import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.data.response.CategoryWordResponse
@@ -40,7 +42,9 @@ interface NetworkService {
      * 카테고리 불러오기
      */
     @GET("/category")
-    fun requestCategory() : Call<BaseResponse<List<CategoryResponse>>>
+    fun requestCategory(
+        @Header("token") token:String
+    ) : Call<BaseResponse<List<CategoryResponse>>>
 
     /**
      * 카테고리 별 단어리스트 가져오기
@@ -49,5 +53,34 @@ interface NetworkService {
     fun requestCategoryWord(
         @Query("category") c_idx : Int
     ) : Call<BaseResponse<List<CategoryWordResponse>>>
+
+    /**
+     * 단어 학습진도 저장
+     */
+    @POST("/category/progress")
+    fun requestCategoryProgress(
+        @Body data : CategoryProgressResponse
+    ) : Call<BaseResponse<Unit>>
+
+
+    /**
+     * 단어 스크랩
+     */
+    @POST("/scrap")
+    fun requestScrap(
+        @Body data : WordScrapResponse
+    ) : Call<BaseResponse<Unit>>
+
+
+    /**
+     * 스크랩 단어 조회
+     */
+    @GET("/scrap")
+    fun requestScarpWord(
+    ) : Call<BaseResponse<CategoryWordResponse>>
+
+
+
+
 
 }

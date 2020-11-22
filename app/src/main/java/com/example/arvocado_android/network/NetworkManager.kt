@@ -1,7 +1,9 @@
 package com.example.arvocado_android.network
 
+import com.example.arvocado_android.data.request.CategoryProgressResponse
 import com.example.arvocado_android.data.request.LoginRequest
 import com.example.arvocado_android.data.request.SignUpRequest
+import com.example.arvocado_android.data.request.WordScrapResponse
 import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
 import okhttp3.RequestBody
@@ -35,8 +37,12 @@ class NetworkManager() {
     fun requestLogin(data : LoginRequest) = retrofit.requestLogin(data)
     fun requestSignUp(data : SignUpRequest) = retrofit.requestSignUp(data)
     fun requestSignUpEmail(email : String) = retrofit.requestSignUpEmail(email)
-    fun requestCategory() = retrofit.requestCategory()
+    fun requestCategory(token : String) = retrofit.requestCategory(token)
     fun requestCategoryWord(c_idx : Int) = retrofit.requestCategoryWord(c_idx)
+    fun requestCategoryProgress(data : CategoryProgressResponse) = retrofit.requestCategoryProgress(data)
+    fun requestScrap(data : WordScrapResponse) = retrofit.requestScrap(data)
+    fun requestScrapWord() = retrofit.requestScarpWord()
+
 
 
 

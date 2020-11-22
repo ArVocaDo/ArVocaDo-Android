@@ -5,8 +5,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.GenericTransitionOptions.with
+import com.bumptech.glide.Glide
+import com.bumptech.glide.Glide.with
+import com.bumptech.glide.GlideContext
 import com.example.arvocado_android.R
-import com.example.arvocado_android.common.GlideApp
 import com.example.arvocado_android.data.response.CategoryResponse
 import com.kravelteam.kravel_android.util.inflate
 
@@ -44,7 +47,7 @@ class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 
         fun bind(item: CategoryResponse, listener: OnItemClickListener?) {
             if(!item.c_img.isNullOrBlank()) {
-                GlideApp.with(itemView).load(item.c_img!!).into(img)
+                Glide.with(itemView).load(item.c_img!!).into(img)
             }
             txt.text = item.c_name
 

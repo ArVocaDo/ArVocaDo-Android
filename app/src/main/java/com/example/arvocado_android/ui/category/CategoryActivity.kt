@@ -42,7 +42,13 @@ class CategoryActivity : AppCompatActivity() {
             adapter = categoryAdatper
             addItemDecoration(HorizontalItemDecorator(14))
         }
-        networkManager.requestCategory().safeEnqueue(
+
+        var token = authManager.token
+        if(token.isNullOrBlank()) {
+            token = "0"
+        }
+
+        networkManager.requestCategory(token).safeEnqueue(
             onSuccess = {
                 if(it.success) {
                     if (!it.data.isNullOrEmpty()) {
