@@ -41,7 +41,7 @@ class NetworkManager() {
     fun requestCategoryWord(c_idx : Int) = retrofit.requestCategoryWord(c_idx)
     fun requestCategoryProgress(data : CategoryProgressResponse) = retrofit.requestCategoryProgress(data)
     fun requestScrap(data : WordScrapResponse) = retrofit.requestScrap(data)
-    fun requestScrapWord() = retrofit.requestScarpWord()
+    fun requestScrapWord(token: String) = retrofit.requestScarpWord(token)
 
 
 

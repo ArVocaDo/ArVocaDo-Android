@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import com.example.arvocado_android.ArVocaDoApplication
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
+import com.example.arvocado_android.util.initWarningDialog
 import kotlinx.android.synthetic.main.activity_signup_nickname.*
 import kotlinx.android.synthetic.main.activity_signup_p_w.*
 import kotlinx.android.synthetic.main.dialog_signup_warning.view.*
@@ -61,7 +62,7 @@ class SignupNicknameActivity : AppCompatActivity() {
         }
         imgSignUpNNext.setOnDebounceClickListener {
             if(nickname == "") {
-                initWarningDialog("닉네임을 입력해주세요.")
+                initWarningDialog(this,"닉네임을 입력해주세요.","")
             } else {
                 Intent(ArVocaDoApplication.GlobalApp,SignupGenderActivity::class.java).apply {
                     putExtra("email",email)
@@ -75,23 +76,6 @@ class SignupNicknameActivity : AppCompatActivity() {
 
             }
 
-        }
-    }
-
-    private fun initWarningDialog(str : String) {
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(this).create()
-        val view = LayoutInflater.from(ArVocaDoApplication.GlobalApp).inflate(R.layout.dialog_signup_warning, null)
-        view.clWarningBg.setBackgroundColor(Color.TRANSPARENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        view.tvWarningOK.setOnDebounceClickListener {
-            dialog.cancel()
-        }
-        view.tvWarningTitle.text = str
-
-        dialog.apply {
-            setView(view)
-            setCancelable(false)
-            show()
         }
     }
 }

@@ -7,6 +7,7 @@ data class CategoryWordResponse(
     val w_kor : String,
     val AR_obj : String,
     val AR_mtl : String,
+    val AR_sfb: String,
     val audio_eng : String,
     val audio_kor : String,
     val index : Int,

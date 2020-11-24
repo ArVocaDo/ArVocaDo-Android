@@ -78,7 +78,8 @@ interface NetworkService {
      */
     @GET("/scrap")
     fun requestScarpWord(
-    ) : Call<BaseResponse<CategoryWordResponse>>
+        @Header("token") token:String
+    ) : Call<BaseResponse<List<CategoryWordResponse>>>
 
 
 
