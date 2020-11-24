@@ -19,6 +19,10 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
         c_idx = intent.getIntExtra("c_idx",0)
         requestCategoryWord()
+        initCamera()
+    }
+    private fun initCamera() {
+
     }
     private fun requestCategoryWord() {
         networkManager.requestCategoryWord(c_idx).safeEnqueue(
