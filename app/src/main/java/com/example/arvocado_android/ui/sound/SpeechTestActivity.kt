@@ -56,7 +56,7 @@ class SpeechTestActivity() : AppCompatActivity() {
                         if(it.success) {
                             Timber.e(it.data[0].audio_eng)
 //                            val path: Uri = Uri.parse("android.resource://"+packageName+"/"+R.raw.coin_button)
-                            val path : Uri = Uri.parse(it.data[0].audio_eng)
+                            val path : Uri = Uri.parse(it.data[0].audio_kor)
                             val r3: Ringtone = getRingtone(this, path)
                             r3.play()
 //                            mediaPlayer.start()
