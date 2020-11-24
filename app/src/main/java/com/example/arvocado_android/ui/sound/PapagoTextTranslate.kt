@@ -41,13 +41,10 @@ class PapagoTextTranslate {
                 response.append(inputLine)
             }
             br.close()
-            println("번역 성공 !!!!!!!!!")
-            println(response.toString())
             var s = response.toString()
             s = s.split("\"".toRegex()).toTypedArray()[27]
             return s
         } catch (e: Exception) {
-            println("Error !!!!!!!!!")
             e.printStackTrace()
         }
         return "error"
