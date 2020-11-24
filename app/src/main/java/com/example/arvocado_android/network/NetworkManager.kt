@@ -12,6 +12,7 @@ import org.koin.dsl.module
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Header
 import java.util.concurrent.TimeUnit
 
 class NetworkManager() {
@@ -33,7 +34,6 @@ class NetworkManager() {
         .build()
         .create(NetworkService::class.java)
 
-
     fun requestLogin(data : LoginRequest) = retrofit.requestLogin(data)
     fun requestSignUp(data : SignUpRequest) = retrofit.requestSignUp(data)
     fun requestSignUpEmail(email : String) = retrofit.requestSignUpEmail(email)
@@ -47,7 +47,7 @@ class NetworkManager() {
 
 
     private companion object {
-        const val BASE_URL = "http://13.209.121.249:3000/"
+        const val BASE_URL = "http://arvocado-edu.tk"
     }
 }
 

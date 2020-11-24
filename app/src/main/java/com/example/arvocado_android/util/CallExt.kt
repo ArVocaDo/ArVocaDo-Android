@@ -1,4 +1,4 @@
-package com.kravelteam.kravel_android.util
+package com.example.arvocado_android.util
 
 import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
 import com.example.arvocado_android.R

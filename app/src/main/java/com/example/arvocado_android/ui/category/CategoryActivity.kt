@@ -14,9 +14,9 @@ import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.CategoryAdapter
 import com.example.arvocado_android.ui.camera.CameraActivity
 import com.example.arvocado_android.ui.mypage.MyPageActivity
-import com.kravelteam.kravel_android.util.networkErrorToast
-import com.kravelteam.kravel_android.util.safeEnqueue
-import com.kravelteam.kravel_android.util.startActivity
+import com.example.arvocado_android.util.networkErrorToast
+import com.example.arvocado_android.util.safeEnqueue
+import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_category.*
 import org.koin.android.ext.android.inject
 import org.koin.experimental.property.inject

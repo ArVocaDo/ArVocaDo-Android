@@ -1,4 +1,4 @@
-package com.kravelteam.kravel_android.util
+package com.example.arvocado_android.util
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
