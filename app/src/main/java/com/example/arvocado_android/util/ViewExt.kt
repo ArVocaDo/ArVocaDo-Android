@@ -1,4 +1,4 @@
-package com.kravelteam.kravel_android.util
+package com.example.arvocado_android.util
 
 import android.graphics.Outline
 import android.view.View

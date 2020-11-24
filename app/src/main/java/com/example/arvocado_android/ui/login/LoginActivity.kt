@@ -13,8 +13,8 @@ import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.category.CategoryActivity
 import com.example.arvocado_android.ui.main.MainActivity
-import com.kravelteam.kravel_android.util.safeEnqueue
-import com.kravelteam.kravel_android.util.startActivity
+import com.example.arvocado_android.util.safeEnqueue
+import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.dialog_signup_warning.view.*
 import org.koin.android.ext.android.inject

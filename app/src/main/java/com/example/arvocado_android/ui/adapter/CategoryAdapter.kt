@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide.with
 import com.bumptech.glide.GlideContext
 import com.example.arvocado_android.R
 import com.example.arvocado_android.data.response.CategoryResponse
-import com.kravelteam.kravel_android.util.inflate
+import com.example.arvocado_android.util.inflate
 
 
 class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {

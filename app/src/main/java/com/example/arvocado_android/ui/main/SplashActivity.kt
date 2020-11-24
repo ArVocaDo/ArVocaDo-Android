@@ -8,7 +8,7 @@ import androidx.core.os.HandlerCompat.postDelayed
 import com.example.arvocado_android.R
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.ui.category.CategoryActivity
-import com.kravelteam.kravel_android.util.startActivity
+import com.example.arvocado_android.util.startActivity
 import org.koin.android.ext.android.inject
 
 class SplashActivity : AppCompatActivity() {

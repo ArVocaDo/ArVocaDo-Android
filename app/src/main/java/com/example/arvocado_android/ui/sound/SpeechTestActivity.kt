@@ -16,11 +16,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.arvocado_android.R
+import com.example.arvocado_android.util.toast
 import com.kakao.sdk.newtoneapi.SpeechRecognizeListener
 import com.kakao.sdk.newtoneapi.SpeechRecognizerClient
 import com.kakao.sdk.newtoneapi.SpeechRecognizerManager
 import com.kakao.util.helper.Utility.getPackageInfo
-import com.kravelteam.kravel_android.util.toast
 import kotlinx.android.synthetic.main.activity_speech_test.*
 import timber.log.Timber
 import java.lang.ref.WeakReference
@@ -113,23 +113,26 @@ class SpeechTestActivity() : AppCompatActivity() {
                 //콜백함수들
                 override fun onReady() {
                     Timber.d("모든 하드웨어 및 오디오 서비스가 준비되었습니다.")
-//                    toast("모든 하드웨어 및 오디오 서비스가 준비되었습니다.")
+                    toast("모든 하드웨어 및 오디오 서비스가 준비되었습니다.")
                 }
 
                 override fun onBeginningOfSpeech() {
                     Timber.d("사용자가 말을 하기 시작했습니다.")
-//                    toast("사용자가 말을 하기 시작했습니다.")
+                    toast("사용자가 말을 하기 시작했습니다.")
                 }
 
                 override fun onEndOfSpeech() {
                     Timber.d("사용자의 말하기가 끝이 났습니다. 데이터를 서버로 전달합니다.")
-//                    toast("사용자의 말하기가 끝이 났습니다. 데이터를 서버로 전달합니다.")
+                    toast("사용자의 말하기가 끝이 났습니다. 데이터를 서버로 전달합니다.")
 
                 }
 
                 override fun onPartialResult(partialResult: String?) {
                     //현재 인식된 음성테이터 문자열을 출력해 준다. 여러번 호출됨. 필요에 따라 사용하면 됨.
                     //Log.d(TAG, "현재까지 인식된 문자열:" + partialResult)
+                    toast("현재까지 인식된 문자열:" + partialResult)
+
+
                 }
 
                 /*

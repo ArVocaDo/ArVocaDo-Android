@@ -5,7 +5,7 @@ import android.os.Bundle
 import com.example.arvocado_android.R
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
-import com.kravelteam.kravel_android.util.safeEnqueue
+import com.example.arvocado_android.util.safeEnqueue
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 import timber.log.Timber.e

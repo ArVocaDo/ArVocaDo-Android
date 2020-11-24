@@ -16,10 +16,8 @@ import com.example.arvocado_android.data.request.SignUpRequest
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.category.CategoryActivity
-import com.kravelteam.kravel_android.util.safeEnqueue
-import com.kravelteam.kravel_android.util.safeLoginEnqueue
-import com.kravelteam.kravel_android.util.startActivity
-import com.kravelteam.kravel_android.util.toast
+import com.example.arvocado_android.util.safeEnqueue
+import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_signup_gender.*
 import kotlinx.android.synthetic.main.dialog_signup_warning.view.*
 import org.koin.android.ext.android.inject

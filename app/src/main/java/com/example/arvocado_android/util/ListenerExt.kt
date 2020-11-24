@@ -1,4 +1,4 @@
-package com.kravelteam.kravel_android.util
+package com.example.arvocado_android.util
 
 import android.text.Editable
 import android.text.TextWatcher
