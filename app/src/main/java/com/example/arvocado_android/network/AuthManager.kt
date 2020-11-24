@@ -35,14 +35,13 @@ class AuthManager(context: Context) {
             }
         }
 
-
-    var expire: Long
-        get(){
-            return preferences.getLong(EXPIRE_KEY,0)
+    var soundCheck : Boolean
+        get() {
+            return preferences.getBoolean(SOUND_KEY, false)
         }
-        set(value){
+        set(value) {
             preferences.edit{
-                putLong(EXPIRE_KEY, value)
+                putBoolean(SOUND_KEY,value)
             }
         }
 
@@ -52,7 +51,7 @@ class AuthManager(context: Context) {
         const val TOKEN_KEY = "token"
         const val AUTO_LOGIN_KEY = "auto"
         const val FIRST_KEY = "first"
-        const val EXPIRE_KEY = "expire"
+        const val SOUND_KEY = "expire"
     }
 }
 
