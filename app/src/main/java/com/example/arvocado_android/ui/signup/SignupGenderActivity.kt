@@ -16,6 +16,7 @@ import com.example.arvocado_android.data.request.SignUpRequest
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.category.CategoryActivity
+import com.example.arvocado_android.util.initWarningDialog
 import com.example.arvocado_android.util.safeEnqueue
 import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_signup_gender.*
@@ -65,7 +66,7 @@ class SignupGenderActivity : AppCompatActivity() {
                 requestSignUp()
 
             } else {
-                initWarningDialog("성별을 선택해주세요.")
+                initWarningDialog(this,"성별을 선택해주세요.","")
             }
         }
         imgSignUpGbefore.setOnDebounceClickListener {
@@ -77,23 +78,6 @@ class SignupGenderActivity : AppCompatActivity() {
                 startActivity(this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                 finish()
             }
-        }
-    }
-
-    private fun initWarningDialog(str : String) {
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(this).create()
-        val view = LayoutInflater.from(ArVocaDoApplication.GlobalApp).inflate(R.layout.dialog_signup_warning, null)
-        view.clWarningBg.setBackgroundColor(Color.TRANSPARENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        view.tvWarningOK.setOnDebounceClickListener {
-            dialog.cancel()
-        }
-        view.tvWarningTitle.text = str
-
-        dialog.apply {
-            setView(view)
-            setCancelable(false)
-            show()
         }
     }
     private fun requestSignUp(){

@@ -3,12 +3,15 @@ package com.example.arvocado_android.ui.category
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
@@ -22,11 +25,9 @@ import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.CategoryAdapter
 import com.example.arvocado_android.ui.camera.CameraActivity
 import com.example.arvocado_android.ui.mypage.MyPageActivity
-import com.example.arvocado_android.util.networkErrorToast
-import com.example.arvocado_android.util.safeEnqueue
-import com.example.arvocado_android.util.startActivity
-import com.example.arvocado_android.util.toast
+import com.example.arvocado_android.util.*
 import kotlinx.android.synthetic.main.activity_category.*
+import kotlinx.android.synthetic.main.dialog_guest_warning.view.*
 import org.koin.android.ext.android.inject
 import org.koin.experimental.property.inject
 import timber.log.Timber
@@ -36,15 +37,25 @@ class CategoryActivity : AppCompatActivity() {
     private val networkManager : NetworkManager by inject()
     private val authManager : AuthManager by inject()
     private var audioManager : AudioManager? = null
+    private var token = authManager.token
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
 
+        if(token.isNullOrBlank()) {
+            token = "0"
+        }
+        Timber.e("token ${token}")
+
         initCategory()
         initSound()
         imgCategoryUser.setOnDebounceClickListener {
-            startActivity(MyPageActivity::class,false)
+            if(token.equals("0")) {
+                initWarningDialog(this, str="로그인 후 이용 가능한 서비스 입니다.",str2 ="로그인을 해주세요!")
+            } else {
+                startActivity(MyPageActivity::class, false)
+            }
         }
     }
     private fun initSound() {
@@ -92,12 +103,6 @@ class CategoryActivity : AppCompatActivity() {
             adapter = categoryAdatper
             addItemDecoration(HorizontalItemDecorator(14))
         }
-
-        var token = authManager.token
-        if(token.isNullOrBlank()) {
-            token = "0"
-        }
-        Timber.e("token $token")
 
         networkManager.requestCategory(token).safeEnqueue(
             onSuccess = {

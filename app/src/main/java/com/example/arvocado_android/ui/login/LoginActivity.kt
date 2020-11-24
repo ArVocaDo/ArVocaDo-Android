@@ -13,6 +13,7 @@ import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.category.CategoryActivity
 import com.example.arvocado_android.ui.main.MainActivity
+import com.example.arvocado_android.util.initWarningDialog
 import com.example.arvocado_android.util.safeEnqueue
 import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_login.*
@@ -39,7 +40,7 @@ class LoginActivity : AppCompatActivity() {
         val pw = editLoginPW.text.toString()
 
         if(email.isNullOrBlank() || pw.isNullOrBlank()) {
-            initWarningDialog("이메일과 비밀번호를 올바르게 입력해주세요!")
+            initWarningDialog(this,"이메일과 비밀번호를 올바르게 입력해주세요!","")
         } else {
             val data = LoginRequest(email,pw)
             networkManager.requestLogin(data).safeEnqueue (
@@ -54,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
 
 
                     } else {
-                        initWarningDialog(it.message)
+                        initWarningDialog(this,it.message,"")
                     }
                 },
                 onError = {
@@ -67,21 +68,5 @@ class LoginActivity : AppCompatActivity() {
 
         }
 
-    }
-    private fun initWarningDialog(str : String) {
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(this).create()
-        val view = LayoutInflater.from(ArVocaDoApplication.GlobalApp).inflate(R.layout.dialog_signup_warning, null)
-        view.clWarningBg.setBackgroundColor(Color.TRANSPARENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        view.tvWarningOK.setOnDebounceClickListener {
-            dialog.cancel()
-        }
-        view.tvWarningTitle.text = str
-
-        dialog.apply {
-            setView(view)
-            setCancelable(false)
-            show()
-        }
     }
 }

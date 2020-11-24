@@ -15,6 +15,7 @@ import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.network.NetworkManager
+import com.example.arvocado_android.util.initWarningDialog
 import com.example.arvocado_android.util.safeEnqueue
 import kotlinx.android.synthetic.main.activity_signup_email.*
 import kotlinx.android.synthetic.main.dialog_signup_warning.view.*
@@ -52,10 +53,10 @@ class SignupEmailActivity : AppCompatActivity() {
 
         imgSignUpE.setOnDebounceClickListener {
             if(email == "") {
-                initWarningDialog("이메일을 입력해주세요.")
+                initWarningDialog(this,"이메일을 입력해주세요.","")
             } else {
                 if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    initWarningDialog("이메일을 올바르게 입력해주세요.")
+                    initWarningDialog(this,"이메일을 올바르게 입력해주세요.","")
                 } else {
                     networkManager.requestSignUpEmail(email).safeEnqueue (
                         onSuccess = {
@@ -67,7 +68,7 @@ class SignupEmailActivity : AppCompatActivity() {
                                     finish()
                                 }
                             } else {
-                                initWarningDialog("이미 회원가입 된 이메일 입니다.")
+                                initWarningDialog(this,"이미 회원가입 된 이메일 입니다.","다른 이메일을 입력해주세요.")
                             }
                         },
                         onFailure = {
@@ -84,23 +85,6 @@ class SignupEmailActivity : AppCompatActivity() {
         }
         imgSignUpECancle.setOnDebounceClickListener {
             finish()
-        }
-    }
-
-    private fun initWarningDialog(str : String) {
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(this).create()
-        val view = LayoutInflater.from(ArVocaDoApplication.GlobalApp).inflate(R.layout.dialog_signup_warning, null)
-        view.clWarningBg.setBackgroundColor(Color.TRANSPARENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        view.tvWarningOK.setOnDebounceClickListener {
-            dialog.cancel()
-        }
-        view.tvWarningTitle.text = str
-
-        dialog.apply {
-            setView(view)
-            setCancelable(false)
-            show()
         }
     }
 }

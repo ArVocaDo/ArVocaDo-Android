@@ -13,6 +13,7 @@ import com.example.arvocado_android.ArVocaDoApplication
 import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
+import com.example.arvocado_android.util.initWarningDialog
 import kotlinx.android.synthetic.main.activity_signup_email.*
 import kotlinx.android.synthetic.main.activity_signup_p_w.*
 import kotlinx.android.synthetic.main.dialog_signup_warning.view.*
@@ -61,10 +62,10 @@ class SignupPWActivity : AppCompatActivity() {
         }
         imgSignUpPNext.setOnDebounceClickListener {
             if(pw == "") {
-                initWarningDialog("비밀번호를 입력해주세요.")
+                initWarningDialog(this,"비밀번호를 입력해주세요.","")
             } else {
                 if(pw.length <6) {
-                    initWarningDialog("비밀번호를 6자 이상으로 입력해주세요.")
+                    initWarningDialog(this,"비밀번호를 6자 이상으로 입력해주세요.","")
                 } else {
                     Intent(GlobalApp,SignupNicknameActivity::class.java).apply {
                         putExtra("email",email)
@@ -77,23 +78,6 @@ class SignupPWActivity : AppCompatActivity() {
 
             }
 
-        }
-    }
-
-    private fun initWarningDialog(str : String) {
-        val dialog = androidx.appcompat.app.AlertDialog.Builder(this).create()
-        val view = LayoutInflater.from(ArVocaDoApplication.GlobalApp).inflate(R.layout.dialog_signup_warning, null)
-        view.clWarningBg.setBackgroundColor(Color.TRANSPARENT)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        view.tvWarningOK.setOnDebounceClickListener {
-            dialog.cancel()
-        }
-        view.tvWarningTitle.text = str
-
-        dialog.apply {
-            setView(view)
-            setCancelable(false)
-            show()
         }
     }
 }
