@@ -5,6 +5,11 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
+import android.media.Ringtone
+import android.media.RingtoneManager
+import android.media.RingtoneManager.getRingtone
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Message
@@ -15,18 +20,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.arvocado_android.R
+import com.example.arvocado_android.network.AuthManager
+import com.example.arvocado_android.network.NetworkManager
+import com.example.arvocado_android.util.safeEnqueue
 import com.example.arvocado_android.util.toast
 import com.kakao.sdk.newtoneapi.SpeechRecognizeListener
 import com.kakao.sdk.newtoneapi.SpeechRecognizerClient
 import com.kakao.sdk.newtoneapi.SpeechRecognizerManager
 import com.kakao.util.helper.Utility.getPackageInfo
 import kotlinx.android.synthetic.main.activity_speech_test.*
+import org.koin.android.ext.android.inject
 import timber.log.Timber
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 class SpeechTestActivity() : AppCompatActivity() {
     private var hashKey : String? = null
+    private val networkManager : NetworkManager by inject()
+    private val authManager : AuthManager by inject()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_speech_test)
@@ -36,6 +48,38 @@ class SpeechTestActivity() : AppCompatActivity() {
             toast("음성 녹음 시작")
             setupPermissions()
             tv_result.setText("")
+        }
+        btn_sound.setOnClickListener {
+            try {
+                networkManager.requestCategoryWord(1).safeEnqueue(
+                    onSuccess = {
+                        if(it.success) {
+                            Timber.e(it.data[0].audio_eng)
+//                            val path: Uri = Uri.parse("android.resource://"+packageName+"/"+R.raw.coin_button)
+                            val path : Uri = Uri.parse(it.data[0].audio_eng)
+                            val r3: Ringtone = getRingtone(this, path)
+                            r3.play()
+//                            mediaPlayer.start()
+//                            mediaPlayer.release()
+
+                        }
+                    },
+                    onError = {
+
+                    },
+                    onFailure = {
+
+                    }
+                )
+
+
+
+            } catch (e : Exception) {
+                e.printStackTrace()
+            }
+
+
+
         }
     }
 
