@@ -73,6 +73,10 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:screenOrientation="landscape" />
+
+        <meta-data
+            android:name="com.kakao.sdk.AppKey"
+            android:value="@string/kakao_app_key"/>
     </application>
 
 </manifest>

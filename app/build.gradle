@@ -106,4 +106,7 @@ dependencies {
     //jwt
     implementation 'com.auth0.android:jwtdecode:2.0.0'
 
+    //카카오 음성인식
+    implementation 'com.kakao.sdk:newtone:6.1.4'
+
 }

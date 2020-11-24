@@ -9,5 +9,6 @@ data class CategoryWordResponse(
     val AR_mtl : String,
     val audio_eng : String,
     val audio_kor : String,
-    val index : Int
+    val index : Int,
+    var isScraped : Boolean
 )
