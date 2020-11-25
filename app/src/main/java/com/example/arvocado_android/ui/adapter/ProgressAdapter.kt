@@ -29,7 +29,7 @@ class ProgressAdapter(context : Context) : RecyclerView.Adapter<ProgressAdapter.
         this.listener = listener
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder
-            = ViewHolder(parent.inflate(R.layout.item_rv_scrap_word))
+            = ViewHolder(parent.inflate(R.layout.item_rv_progress))
 
     override fun getItemCount(): Int = data.size
 

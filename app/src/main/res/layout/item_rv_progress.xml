@@ -40,7 +40,7 @@
         android:textSize="16sp"
         android:textColor="@color/colorBrown"
         android:layout_marginBottom="4dp"
-        tools:text = "20%"
+        android:text="30%"
         android:fontFamily="@font/cookie_run_b"
         app:layout_constraintRight_toRightOf="@id/pbRvProgress"/>
 

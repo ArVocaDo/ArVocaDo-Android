@@ -7,7 +7,6 @@ import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.util.safeEnqueue
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 
 class CameraActivity : AppCompatActivity() {
     var c_idx : Int = 0
@@ -28,7 +27,6 @@ class CameraActivity : AppCompatActivity() {
             networkManager.requestCategoryWord(c_idx).safeEnqueue(
                 onSuccess = {
                     if (it.success) {
-                        Timber.e(it.data[0].w_kor)
                     }
                 },
                 onError = {

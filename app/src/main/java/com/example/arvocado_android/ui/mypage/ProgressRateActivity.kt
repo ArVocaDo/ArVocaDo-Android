@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
-import com.example.arvocado_android.common.HorizontalItemDecorator
+import com.example.arvocado_android.common.VerticalItemDecorator
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.example.arvocado_android.network.AuthManager
@@ -36,7 +36,7 @@ class ProgressRateActivity : AppCompatActivity() {
     private fun initProgressRecycler() {
         rvProgress.apply {
         adapter = progressAdapter
-        addItemDecoration(HorizontalItemDecorator(14))
+        addItemDecoration(VerticalItemDecorator(32))
     }
 
         networkManager.requestCategoryWord(2).safeEnqueue(
