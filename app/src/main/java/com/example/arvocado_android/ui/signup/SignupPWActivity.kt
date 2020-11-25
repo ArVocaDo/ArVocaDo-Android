@@ -1,23 +1,15 @@
 package com.example.arvocado_android.ui.signup
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
-import com.example.arvocado_android.ArVocaDoApplication
+import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.util.initWarningDialog
-import kotlinx.android.synthetic.main.activity_signup_email.*
 import kotlinx.android.synthetic.main.activity_signup_p_w.*
-import kotlinx.android.synthetic.main.dialog_signup_warning.view.*
-import timber.log.Timber
 
 class SignupPWActivity : AppCompatActivity() {
     private var pw = ""

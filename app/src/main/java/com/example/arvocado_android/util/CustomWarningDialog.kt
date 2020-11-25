@@ -17,6 +17,7 @@ fun initWarningDialog(context: Context, str : String, str2 : String) {
     view.txt_area_warning_content2.setText(str2)
     dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
     view.btnGuestWarning setOnDebounceClickListener {
+
         dialog.cancel()
     }
 

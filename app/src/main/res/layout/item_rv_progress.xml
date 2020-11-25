@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="@id/pbRvProgress"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/pbRvProgress"
+        android:id="@+id/tvRvProgress"
+        android:text="음식"
+        android:fontFamily="@font/cookie_run_b"
+        android:textSize="20sp"
+        android:textColor="@color/colorBrown"/>
+
+    <ProgressBar
+        android:id="@+id/pbRvProgress"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:layout_marginLeft="20dp"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        app:layout_constraintLeft_toRightOf="@id/tvRvProgress"
+        app:layout_constraintRight_toLeftOf="@id/btnRvLearn"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintTop_toTopOf="parent"
+        android:max="100"
+        android:progress="40"
+        android:progressDrawable="@drawable/custom_progressbar"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvRvProgressPercent"
+        app:layout_constraintBottom_toTopOf="@id/pbRvProgress"
+        android:textSize="16sp"
+        android:textColor="@color/colorBrown"
+        android:layout_marginBottom="4dp"
+        tools:text = "20%"
+        android:fontFamily="@font/cookie_run_b"
+        app:layout_constraintRight_toRightOf="@id/pbRvProgress"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnRvLearn"
+        android:background="@drawable/bg_progress_btn"
+        android:text="공부하기"
+        android:layout_marginRight="30dp"
+        android:fontFamily="@font/cookie_run_b"
+        android:textSize="18sp"
+        android:layout_marginLeft="36dp"
+        app:layout_constraintLeft_toRightOf="@id/pbRvProgress"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/pbRvProgress"
+        android:drawableRight="@drawable/btn_next2"
+        android:drawablePadding="6dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
