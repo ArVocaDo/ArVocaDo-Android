@@ -2,29 +2,73 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/warning_dlg_bg"
+    android:id="@+id/clRvScrapWord"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:padding="20dp">
+    android:paddingHorizontal="10dp">
 
-    <android.opengl.GLSurfaceView
-        android:layout_width="160dp"
-        android:layout_height="200dp"
-        android:id="@+id/imgRvWord"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:paddingHorizontal="50dp"
+        android:paddingBottom="24dp"
+        android:background="@drawable/bg_scrap_word"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"/>
+        app:layout_constraintBottom_toBottomOf="parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvRvWordTitle"
         android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/colorBlack"
+        android:text="RED"
+        android:layout_marginTop="80dp"
+        android:fontFamily="@font/cookie_run_b"
+        android:textColor="@color/colorBrown"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/imgRvWord"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvRvWordKor"
+            android:textSize="20sp"
+            android:text="RED"
+            android:fontFamily="@font/cookie_run_b"
+            android:textColor="@color/colorBrown"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tvRvWordTitle"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/bg_scrap_word"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+
+
+    <ImageView
+        android:background="@color/colorGrey"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/imgRvWord"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

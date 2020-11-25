@@ -8,21 +8,21 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.arvocado_android.R
-import com.example.arvocado_android.data.response.CategoryWordResponse
+import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.util.inflate
 
 
 class ProgressAdapter(context : Context) : RecyclerView.Adapter<ProgressAdapter.ViewHolder>() {
-    private var data : List<CategoryWordResponse> = listOf()
+    private var data : List<CategoryResponse> = listOf()
     private val context = context
 
-    fun initData(data: List<CategoryWordResponse>) {
+    fun initData(data: List<CategoryResponse>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     interface OnItemClickListener{
-        fun onItemClick(v:View, data: CategoryWordResponse, pos : Int)
+        fun onItemClick(v:View, data: CategoryResponse, pos : Int)
     }
     private var listener : OnItemClickListener? = null
     fun setOnItemClickListener(listener : OnItemClickListener) {
@@ -44,9 +44,16 @@ class ProgressAdapter(context : Context) : RecyclerView.Adapter<ProgressAdapter.
         private val percent : TextView = itemView.findViewById(R.id.tvRvProgressPercent)
         private val progress : ProgressBar = itemView.findViewById(R.id.pbRvProgress)
 
-        fun bind(item: CategoryWordResponse, listener: OnItemClickListener?) {
+        fun bind(item: CategoryResponse, listener: OnItemClickListener?) {
 
 
+            txt.text = item.c_name
+            var p = 0
+            if(item.index!=0 && item.c_count!=0) {
+                p = item.index / item.c_count * 100
+            }
+            percent.text = p.toString()+"%"
+            progress.progress = p
             val pos = adapterPosition
             if(pos!= RecyclerView.NO_POSITION)
             {

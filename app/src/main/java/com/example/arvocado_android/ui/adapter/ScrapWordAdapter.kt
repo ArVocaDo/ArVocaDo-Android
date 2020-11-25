@@ -1,31 +1,28 @@
 package com.example.arvocado_android.ui.adapter
 
 import android.content.Context
-import android.opengl.GLES20
-import android.opengl.GLSurfaceView
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.arvocado_android.R
-import com.example.arvocado_android.data.response.CategoryWordResponse
-import com.example.arvocado_android.util.Obj
+import com.example.arvocado_android.data.response.ScrapWordResponse
 import com.example.arvocado_android.util.inflate
-import javax.microedition.khronos.egl.EGLConfig
-import javax.microedition.khronos.opengles.GL10
 
 
 class ScrapWordAdapter(context : Context) : RecyclerView.Adapter<ScrapWordAdapter.ViewHolder>() {
-    private var data : List<CategoryWordResponse> = listOf()
+    private var data : List<ScrapWordResponse> = listOf()
     private val context = context
 
-    fun initData(data: List<CategoryWordResponse>) {
+    fun initData(data: List<ScrapWordResponse>) {
         this.data = data
         notifyDataSetChanged()
     }
 
     interface OnItemClickListener{
-        fun onItemClick(v:View, data: CategoryWordResponse, pos : Int)
+        fun onItemClick(v:View, data: ScrapWordResponse, pos : Int)
     }
     private var listener : OnItemClickListener? = null
     fun setOnItemClickListener(listener : OnItemClickListener) {
@@ -42,30 +39,15 @@ class ScrapWordAdapter(context : Context) : RecyclerView.Adapter<ScrapWordAdapte
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private lateinit var obj : Obj
-        private val img : GLSurfaceView = itemView.findViewById(R.id.imgRvWord)
+        private val img : ImageView = itemView.findViewById(R.id.imgRvWord)
         private val txt : TextView = itemView.findViewById(R.id.tvRvWordTitle)
+        private val txtKo : TextView = itemView.findViewById(R.id.tvRvWordKor)
 
-        fun bind(item: CategoryWordResponse, listener: OnItemClickListener?) {
+        fun bind(item: ScrapWordResponse, listener: OnItemClickListener?) {
 
-            img.setEGLContextClientVersion(2)
-            img.setRenderer(object :GLSurfaceView.Renderer{
-                override fun onDrawFrame(gl: GL10?) {
-                    obj.draw()
-
-                }
-
-                override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
-                    GLES20.glViewport(0, 0, width, height)
-                }
-
-                override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
-                    img.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
-                    obj = Obj(context = context, obj = item.AR_obj)
-                }
-
-            })
-            txt.text = item.w_kor
+            Glide.with(itemView).load(item.w_img!!).into(img)
+            txt.text = item.w_eng
+            txtKo.text = "("+item.w_kor+")"
 
             val pos = adapterPosition
             if(pos!= RecyclerView.NO_POSITION)
