@@ -6,14 +6,12 @@ import android.opengl.Matrix
 import android.util.Log
 import com.example.arvocado_android.R
 import org.apache.commons.io.IOUtils
-import timber.log.Timber
-import java.io.InputStream
-import java.net.URL
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.nio.FloatBuffer
 import java.nio.ShortBuffer
 import java.nio.charset.Charset
+import java.util.*
 
 class Obj(context: Context, obj: String) {
     private var verticesList = mutableListOf<String>()
@@ -25,19 +23,16 @@ class Obj(context: Context, obj: String) {
 
     init {
         try {
-            val url = URL(obj)
-            val input: InputStream = url.openStream()
-            Timber.e(input.toString())
-
-
-//            while (file.readText()!=null) {
-//                val line = file.readText()
-//                if(line.startsWith("v")) {
-//                    verticesList.add(line)
-//                } else if (line.startsWith("f")) {
-//                    facesList.add(line)
-//                }
-//            }
+            val scanner = Scanner(context.assets.open("Apple.obj"))
+            while (scanner.hasNextLine()) {
+                val line = scanner.nextLine()
+                if(line.startsWith("v")) {
+                    verticesList.add(line)
+                } else if (line.startsWith("f")) {
+                    facesList.add(line)
+                }
+            }
+            scanner.close()
 
             // Allocate buffers
             createBufferForVertices()
@@ -46,6 +41,7 @@ class Obj(context: Context, obj: String) {
             // Fill buffers
             fillVertices()
             fillFaces()
+
 
             // Convert vertex_shader.glsl to string
             val vertexShaderStream = context.resources.openRawResource(R.raw.vertex_shader)

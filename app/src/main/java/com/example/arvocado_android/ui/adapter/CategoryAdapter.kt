@@ -5,10 +5,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.GenericTransitionOptions.with
 import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.with
-import com.bumptech.glide.GlideContext
 import com.example.arvocado_android.R
 import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.util.inflate

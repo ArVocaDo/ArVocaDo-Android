@@ -8,8 +8,9 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.HorizontalItemDecorator
+import com.example.arvocado_android.common.VerticalItemDecorator
 import com.example.arvocado_android.common.setOnDebounceClickListener
-import com.example.arvocado_android.data.response.CategoryWordResponse
+import com.example.arvocado_android.data.response.ScrapWordResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.ScrapWordAdapter
@@ -34,14 +35,17 @@ class ScrapWordActivity : AppCompatActivity() {
     private fun initWordRecycler () {
         rvScrapWord.apply {
             adapter = wordAdapter
-            addItemDecoration(HorizontalItemDecorator(14))
+            addItemDecoration(HorizontalItemDecorator(32))
+            addItemDecoration(VerticalItemDecorator(32))
         }
 
-            networkManager.requestCategoryWord(2).safeEnqueue(
+            networkManager.requestScrapWord(authManager.token).safeEnqueue(
                 onSuccess = {
                     if (it.success) {
                         if (!it.data.isNullOrEmpty()) {
                             wordAdapter.initData(it.data)
+                            tvRvWordTitle.text = it.data.size.toString()+"개"
+
                         }
                     } else {
                         Timber.e(it.message)
@@ -57,7 +61,7 @@ class ScrapWordActivity : AppCompatActivity() {
 
 
         wordAdapter.setOnItemClickListener(object : ScrapWordAdapter.OnItemClickListener{
-            override fun onItemClick(v: View, data: CategoryWordResponse, pos: Int) {
+            override fun onItemClick(v: View, data: ScrapWordResponse, pos: Int) {
                 if(authManager.soundCheck) {
                     val path : Uri = Uri.parse(data.audio_eng)
                     val r3: Ringtone = RingtoneManager.getRingtone(this@ScrapWordActivity, path)

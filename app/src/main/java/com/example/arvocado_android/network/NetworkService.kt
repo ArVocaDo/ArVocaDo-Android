@@ -4,10 +4,7 @@ import com.example.arvocado_android.data.request.CategoryProgressResponse
 import com.example.arvocado_android.data.request.LoginRequest
 import com.example.arvocado_android.data.request.SignUpRequest
 import com.example.arvocado_android.data.request.WordScrapResponse
-import com.example.arvocado_android.data.response.BaseResponse
-import com.example.arvocado_android.data.response.CategoryResponse
-import com.example.arvocado_android.data.response.CategoryWordResponse
-import com.example.arvocado_android.data.response.LoginResponse
+import com.example.arvocado_android.data.response.*
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -86,7 +83,7 @@ interface NetworkService {
     @GET("/scrap")
     fun requestScarpWord(
         @Header("token") token:String
-    ) : Call<BaseResponse<List<CategoryWordResponse>>>
+    ) : Call<BaseResponse<List<ScrapWordResponse>>>
 
 
 
