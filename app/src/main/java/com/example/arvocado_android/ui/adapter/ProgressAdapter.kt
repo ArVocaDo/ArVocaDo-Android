@@ -10,6 +10,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.arvocado_android.R
 import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.util.inflate
+import timber.log.Timber
+import kotlin.math.roundToInt
 
 
 class ProgressAdapter(context : Context) : RecyclerView.Adapter<ProgressAdapter.ViewHolder>() {
@@ -46,14 +48,14 @@ class ProgressAdapter(context : Context) : RecyclerView.Adapter<ProgressAdapter.
 
         fun bind(item: CategoryResponse, listener: OnItemClickListener?) {
 
-
             txt.text = item.c_name
-            var p = 0
+            var p = 0.0
             if(item.index!=0 && item.c_count!=0) {
-                p = item.index / item.c_count * 100
+                p = (((item.index.toDouble() / item.c_count.toDouble()) * 100).toDouble())
             }
-            percent.text = p.toString()+"%"
-            progress.progress = p
+            percent.text = p.roundToInt().toString()+ "%"
+            progress.progress = p.roundToInt()
+            Timber.e(p.toString())
             val pos = adapterPosition
             if(pos!= RecyclerView.NO_POSITION)
             {
