@@ -1,15 +1,10 @@
 package com.example.arvocado_android.ui.signup
 
-import android.app.Activity
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.widget.RadioGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.ArVocaDoApplication
-import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.data.request.SignUpRequest
@@ -20,7 +15,6 @@ import com.example.arvocado_android.util.initWarningDialog
 import com.example.arvocado_android.util.safeEnqueue
 import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_signup_gender.*
-import kotlinx.android.synthetic.main.dialog_signup_warning.view.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
 

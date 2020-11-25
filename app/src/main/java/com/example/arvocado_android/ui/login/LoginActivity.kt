@@ -1,23 +1,17 @@
 package com.example.arvocado_android.ui.login
 
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
-import com.example.arvocado_android.ArVocaDoApplication
+import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.data.request.LoginRequest
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.category.CategoryActivity
-import com.example.arvocado_android.ui.main.MainActivity
 import com.example.arvocado_android.util.initWarningDialog
 import com.example.arvocado_android.util.safeEnqueue
 import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.dialog_signup_warning.view.*
 import org.koin.android.ext.android.inject
 
 class LoginActivity : AppCompatActivity() {

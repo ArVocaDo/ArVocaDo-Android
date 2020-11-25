@@ -4,27 +4,93 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorWhiteBrown"
     tools:context=".ui.mypage.MyPageActivity">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clUser"
+        android:background="@color/colorMain"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
 
-    <Button
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/imgUserCancle"           android:includeFontPadding="false"
+            android:fontFamily="@font/cookie_run_b"
+            android:text="마이페이지"
+            android:textColor="@color/colorBrown"
+            android:textSize="20sp"
+            android:layout_marginLeft="24dp"
+            android:paddingVertical="20dp"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgUserLogout"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/btn_logout"
+            android:layout_marginRight="24dp"/>
+
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imgUserCancle"
+            android:src="@drawable/btn_back_down"
+            android:layout_marginLeft="24dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/bolder"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/colorBoldBrown"
+        app:layout_constraintTop_toBottomOf="@id/clUser"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imgUserLogo"
+        android:src="@drawable/ic_abo_my"
+        android:layout_marginLeft="42dp"
+        app:layout_constraintTop_toBottomOf="@id/bolder"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imgUserScrap"
-        android:text="스크랩"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
+        android:src="@drawable/btn_save_word"
+        app:layout_constraintTop_toTopOf="@id/bolder"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="62dp"
+        app:layout_constraintBottom_toTopOf="@id/imgUserCategory"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@id/imgUserLogo"/>
 
 
-    <Button
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/imgUserCategory"
-        android:text="학습 진도율"
+        android:src="@drawable/btn_progress"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/imgUserScrap"
-        app:layout_constraintTop_toTopOf="parent"/>
-
+        app:layout_constraintLeft_toLeftOf="@id/imgUserScrap"
+        app:layout_constraintRight_toRightOf="@id/imgUserScrap"
+        app:layout_constraintTop_toBottomOf="@id/imgUserScrap"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

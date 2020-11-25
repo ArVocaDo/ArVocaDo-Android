@@ -8,8 +8,6 @@ import com.example.arvocado_android.data.response.BaseResponse
 import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.example.arvocado_android.data.response.LoginResponse
-import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -22,6 +20,15 @@ interface NetworkService {
     fun requestLogin(
         @Body data : LoginRequest
     ): Call<BaseResponse<LoginResponse>>
+
+    /**
+     * 토큰 확인
+     */
+    @GET("/auth/token")
+    fun requestRefreshToken(
+        @Header("token")  token : String
+    ) : Call<BaseResponse<Unit>>
+
 
     /**
      * 회원가입

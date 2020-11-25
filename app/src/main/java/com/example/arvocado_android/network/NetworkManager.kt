@@ -4,15 +4,11 @@ import com.example.arvocado_android.data.request.CategoryProgressResponse
 import com.example.arvocado_android.data.request.LoginRequest
 import com.example.arvocado_android.data.request.SignUpRequest
 import com.example.arvocado_android.data.request.WordScrapResponse
-import okhttp3.MultipartBody
 import okhttp3.OkHttpClient
-import okhttp3.RequestBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
-import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Header
 import java.util.concurrent.TimeUnit
 
 class NetworkManager() {
@@ -42,6 +38,7 @@ class NetworkManager() {
     fun requestCategoryProgress(data : CategoryProgressResponse) = retrofit.requestCategoryProgress(data)
     fun requestScrap(data : WordScrapResponse) = retrofit.requestScrap(data)
     fun requestScrapWord(token: String) = retrofit.requestScarpWord(token)
+    fun requestRefreshToken(token: String) = retrofit.requestRefreshToken(token)
 
 
 

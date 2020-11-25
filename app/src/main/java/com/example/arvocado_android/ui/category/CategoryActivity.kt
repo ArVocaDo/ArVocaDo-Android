@@ -3,20 +3,16 @@ package com.example.arvocado_android.ui.category
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.media.AudioManager
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
 import com.example.arvocado_android.R
-import com.example.arvocado_android.common.GlideApp
 import com.example.arvocado_android.common.HorizontalItemDecorator
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.data.response.CategoryResponse
@@ -27,9 +23,7 @@ import com.example.arvocado_android.ui.camera.CameraActivity
 import com.example.arvocado_android.ui.mypage.MyPageActivity
 import com.example.arvocado_android.util.*
 import kotlinx.android.synthetic.main.activity_category.*
-import kotlinx.android.synthetic.main.dialog_guest_warning.view.*
 import org.koin.android.ext.android.inject
-import org.koin.experimental.property.inject
 import timber.log.Timber
 
 class CategoryActivity : AppCompatActivity() {
@@ -43,7 +37,7 @@ class CategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
 
-        if(token.isNullOrBlank()) {
+        if(token.isNullOrEmpty()) {
             token = "0"
         }
         Timber.e("token ${token}")
@@ -103,24 +97,25 @@ class CategoryActivity : AppCompatActivity() {
             adapter = categoryAdatper
             addItemDecoration(HorizontalItemDecorator(14))
         }
-
-        networkManager.requestCategory(token).safeEnqueue(
-            onSuccess = {
-                if(it.success) {
-                    if (!it.data.isNullOrEmpty()) {
-                        categoryAdatper.initData(it.data)
+            networkManager.requestCategory(token).safeEnqueue(
+                onSuccess = {
+                    if (it.success) {
+                        if (!it.data.isNullOrEmpty()) {
+                            categoryAdatper.initData(it.data)
+                        }
+                    } else {
+                        Timber.e(it.message)
                     }
-                } else {
-                    Timber.e(it.message)
+                },
+                onFailure = {
+                },
+                onError = {
+                    Timber.e(it)
+                    networkErrorToast()
                 }
-            },
-            onFailure = {
-            },
-            onError = {
-                Timber.e(it)
-                networkErrorToast()
-            }
-        )
+            )
+
+
 
 
         categoryAdatper.setOnItemClickListener(object : CategoryAdapter.OnItemClickListener{

@@ -12,5 +12,8 @@
     <color name="colorBoldBrown">#796e4b</color>
     <color name="colorBoldGray">#333333</color>
     <color name="colorBlue">#0770da</color>
+    <color name="colorPink">#f4c4c0</color>
+    <color name="colorYellow">#fdf489</color>
+    <color name="colorBoldYellow">#fae5ac</color>
 
 </resources>

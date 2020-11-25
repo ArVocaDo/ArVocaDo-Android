@@ -1,22 +1,18 @@
 package com.example.arvocado_android.ui.adapter
 
 import android.content.Context
+import android.opengl.GLES20
 import android.opengl.GLSurfaceView
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.GenericTransitionOptions.with
-import com.bumptech.glide.Glide
-import com.bumptech.glide.Glide.with
-import com.bumptech.glide.GlideContext
 import com.example.arvocado_android.R
-import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.data.response.CategoryWordResponse
-import com.example.arvocado_android.util.MyGLRenderer
-import com.example.arvocado_android.util.ObjLoader
+import com.example.arvocado_android.util.Obj
 import com.example.arvocado_android.util.inflate
+import javax.microedition.khronos.egl.EGLConfig
+import javax.microedition.khronos.opengles.GL10
 
 
 class ScrapWordAdapter(context : Context) : RecyclerView.Adapter<ScrapWordAdapter.ViewHolder>() {
@@ -46,16 +42,29 @@ class ScrapWordAdapter(context : Context) : RecyclerView.Adapter<ScrapWordAdapte
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private lateinit var obj : Obj
         private val img : GLSurfaceView = itemView.findViewById(R.id.imgRvWord)
         private val txt : TextView = itemView.findViewById(R.id.tvRvWordTitle)
 
         fun bind(item: CategoryWordResponse, listener: OnItemClickListener?) {
 
             img.setEGLContextClientVersion(2)
-            val  renderer = MyGLRenderer()
-            img.setRenderer(renderer)
-            img.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
-            val objLoader = ObjLoader(context,item.AR_obj)
+            img.setRenderer(object :GLSurfaceView.Renderer{
+                override fun onDrawFrame(gl: GL10?) {
+                    obj.draw()
+
+                }
+
+                override fun onSurfaceChanged(gl: GL10?, width: Int, height: Int) {
+                    GLES20.glViewport(0, 0, width, height)
+                }
+
+                override fun onSurfaceCreated(gl: GL10?, config: EGLConfig?) {
+                    img.renderMode = GLSurfaceView.RENDERMODE_WHEN_DIRTY
+                    obj = Obj(context = context, obj = item.AR_obj)
+                }
+
+            })
             txt.text = item.w_kor
 
             val pos = adapterPosition
