@@ -16,5 +16,6 @@
     <color name="colorYellow">#fdf489</color>
     <color name="colorBoldYellow">#fae5ac</color>
     <color name="colorGrey">#979797</color>
+    <color name="colorBackgroundGrey">#454545</color>
 
 </resources>
