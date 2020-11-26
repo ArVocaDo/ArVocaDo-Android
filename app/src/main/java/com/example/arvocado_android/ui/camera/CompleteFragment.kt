@@ -17,9 +17,6 @@ class CompleteFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-//        btnBackDown.setOnDebounceClickListener {
-//            startActivity(CategoryActivity::class, false)
-//        }
     }
 
     override fun onCreateView(
