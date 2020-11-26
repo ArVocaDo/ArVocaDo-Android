@@ -15,10 +15,12 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentTransaction
 import com.example.arvocado_android.R
+import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.util.safeEnqueue
 import kotlinx.android.synthetic.main.activity_camera.*
+import kotlinx.android.synthetic.main.fragment_start.*
 import okhttp3.internal.EMPTY_REQUEST
 import org.koin.android.ext.android.inject
 import java.util.concurrent.ExecutorService
@@ -29,18 +31,21 @@ class CameraActivity : AppCompatActivity() {
     private val networkManager : NetworkManager by inject()
     private val authManager : AuthManager by inject()
     private lateinit var cameraExecutor: ExecutorService
-    private val firstFragment: BlankFragment = BlankFragment()
-
+    private val startFragment: StartFragment = StartFragment()
+    private val learningFragment: LearningFragment = LearningFragment()
+    private val completeFragment: CompleteFragment = CompleteFragment()
+    private var transaction :FragmentTransaction = supportFragmentManager.beginTransaction()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
         c_idx = intent.getIntExtra("c_idx",0)
         requestCategoryWord()
         initCamera()
-        val transaction : FragmentTransaction = supportFragmentManager.beginTransaction()
-        transaction.add(R.id.container, firstFragment)
-        transaction.commit()
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, StartFragment())
+            .commit()
     }
+
     private fun initCamera() {
         if(allPermissionsGranted()) {
             startCamera()
@@ -53,33 +58,26 @@ class CameraActivity : AppCompatActivity() {
     }
 
     private fun startCamera() {
-          Log.d(TAG, "ARVOCADO: startCamera()")
-//        val cameraProviderFuture1 = ProcessCameraProvider.getInstance(this)
-//        Log.d(TAG, "ARVOCADO: 1")
-//        cameraProviderFuture1.addListener(Runnable {
-//            val cameraProvider: ProcessCameraProvider = cameraProviderFuture1.get()
-//            Log.d(TAG, "ARVOCADO: 2")
-//
-//            val preview = Preview.Builder()
-//                .build()
-//                .also {
-//                    it.setSurfaceProvider(viewFinder.createSurfaceProvider())
-//                }
-//            Log.d(TAG, "ARVOCADO: 3")
-//            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-//
-//            try {
-//                cameraProvider.unbindAll()
-//
-//                cameraProvider.bindToLifecycle(
-//                    this, cameraSelector, preview)
-//                Log.d(TAG, "ARVOCADO: 4")
-//            } catch(e: Exception) {
-//                Log.d(TAG, "ARVOCADO: 5")
-//                Log.e(TAG, "binding falied", e)
-//            }
-//        }, ContextCompat.getMainExecutor(this))
-//        Log.d(TAG, "ARVOCADO: 6")
+        var cameraProviderFuture = ProcessCameraProvider.getInstance(this)
+        cameraProviderFuture.addListener(Runnable {
+            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
+
+            val preview = Preview.Builder()
+                .build()
+                .also {
+                    it.setSurfaceProvider(viewFinder.createSurfaceProvider())
+                }
+            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+
+            try {
+                cameraProvider.unbindAll()
+
+                cameraProvider.bindToLifecycle(
+                    this, cameraSelector, preview)
+            } catch(e: Exception) {
+                Log.e(TAG, "binding falied", e)
+            }
+        }, ContextCompat.getMainExecutor(this))
     }
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
@@ -95,7 +93,6 @@ class CameraActivity : AppCompatActivity() {
         Log.d(TAG, "requestCode >> "+requestCode)
         if(requestCode == REQUEST_CODE_PERMISSIONS) {
             if(allPermissionsGranted()) {
-                Log.d(TAG, "ARVOCADO: 8")
                 startCamera()
             }
             else {

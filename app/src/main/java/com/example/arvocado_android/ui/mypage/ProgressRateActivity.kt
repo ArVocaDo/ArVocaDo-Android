@@ -34,8 +34,8 @@ class ProgressRateActivity : AppCompatActivity() {
         imgProgressCancle.setOnDebounceClickListener {
             finish()
         }
-
     }
+
     private fun initProgressRecycler() {
         rvProgress.apply {
         adapter = progressAdapter
