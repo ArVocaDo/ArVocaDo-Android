@@ -17,19 +17,20 @@
         android:textSize="20sp"
         android:textColor="@color/colorBrown"/>
 
-    <ProgressBar
+    <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
         android:id="@+id/pbRvProgress"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
-        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        app:rcBackgroundColor="@color/colorBoldYellow"
+        app:rcBackgroundPadding="4dp"
+        app:rcAnimationEnable="true"
+        app:rcRadius="41dp"
+        app:rcAnimationSpeedScale="1"
         app:layout_constraintLeft_toRightOf="@id/tvRvProgress"
         app:layout_constraintRight_toLeftOf="@id/btnRvLearn"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toTopOf="parent"
-        android:max="100"
-        android:progress="40"
-        android:progressDrawable="@drawable/custom_progressbar"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView

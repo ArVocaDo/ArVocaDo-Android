@@ -44,7 +44,7 @@ class NetworkManager() {
 
 
     private companion object {
-        const val BASE_URL = "http://arvocado-edu.tk"
+        const val BASE_URL = "http://13.209.121.249"
     }
 }
 
