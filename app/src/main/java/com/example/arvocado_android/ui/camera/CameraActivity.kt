@@ -35,6 +35,7 @@ class CameraActivity : AppCompatActivity() {
     private val learningFragment: LearningFragment = LearningFragment()
     private val completeFragment: CompleteFragment = CompleteFragment()
     private var transaction :FragmentTransaction = supportFragmentManager.beginTransaction()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
@@ -42,7 +43,7 @@ class CameraActivity : AppCompatActivity() {
         requestCategoryWord()
         initCamera()
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, StartFragment())
+            .add(R.id.container, CompleteFragment())
             .commit()
     }
 

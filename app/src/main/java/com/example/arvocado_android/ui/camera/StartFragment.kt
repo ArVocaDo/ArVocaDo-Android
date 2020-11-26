@@ -16,17 +16,19 @@ import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.fragment_start.*
 
 class StartFragment : Fragment() {
-
+    private lateinit var activity: CameraActivity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-            Log.d("HIIIIII", "HIIIIIIIIIIIII")
+    }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        activity = CameraActivity()
     }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Log.d("HIIIIII", "H12345")
         return inflater.inflate(R.layout.fragment_start, start_fragment, false)
     }
 
