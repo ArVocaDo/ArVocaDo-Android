@@ -43,7 +43,7 @@ class CameraActivity : AppCompatActivity() {
         requestCategoryWord()
         initCamera()
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, CompleteFragment())
+            .add(R.id.container, StartFragment())
             .commit()
     }
 
