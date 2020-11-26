@@ -4,13 +4,12 @@ import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
 import com.example.arvocado_android.R
 import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.util.inflate
-import timber.log.Timber
 import kotlin.math.roundToInt
 
 
@@ -44,18 +43,33 @@ class ProgressAdapter(context : Context) : RecyclerView.Adapter<ProgressAdapter.
         private val btnLearn : Button = itemView.findViewById(R.id.btnRvLearn)
         private val txt : TextView = itemView.findViewById(R.id.tvRvProgress)
         private val percent : TextView = itemView.findViewById(R.id.tvRvProgressPercent)
-        private val progress : ProgressBar = itemView.findViewById(R.id.pbRvProgress)
+        private val progress : RoundCornerProgressBar = itemView.findViewById(R.id.pbRvProgress)
 
         fun bind(item: CategoryResponse, listener: OnItemClickListener?) {
 
             txt.text = item.c_name
+            if(item.c_idx%3== 0) {
+                progress.progressColor = context.resources.getColor(R.color.colorYellow)
+                progress.secondaryProgressColor = context.resources.getColor(R.color.colorYellow50)
+
+            } else if (item.c_idx%3 == 1) {
+                progress.progressColor = context.resources.getColor(R.color.colorMain)
+                progress.secondaryProgressColor = context.resources.getColor(R.color.colorGreen50)
+
+            } else {
+                progress.progressColor = context.resources.getColor(R.color.colorPink)
+                progress.secondaryProgressColor = context.resources.getColor(R.color.colorPink50)
+
+            }
             var p = 0.0
             if(item.index!=0 && item.c_count!=0) {
                 p = (((item.index.toDouble() / item.c_count.toDouble()) * 100).toDouble())
             }
             percent.text = p.roundToInt().toString()+ "%"
-            progress.progress = p.roundToInt()
-            Timber.e(p.toString())
+            progress.setProgress(p.roundToInt())
+            progress.max = 100f
+            progress.setSecondaryProgress((p*1.3).roundToInt())
+            //            Timber.e(p.toString())
             val pos = adapterPosition
             if(pos!= RecyclerView.NO_POSITION)
             {

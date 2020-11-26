@@ -111,5 +111,9 @@ dependencies {
 
     implementation 'commons-io:commons-io:2.5'
 
+    //progress바 custom
+    implementation 'com.akexorcist:round-corner-progress-bar:2.1.1'
+
+
 
 }
