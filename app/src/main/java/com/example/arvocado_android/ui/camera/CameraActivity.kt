@@ -18,10 +18,13 @@ import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.category.CategoryActivity
+import com.example.arvocado_android.util.initLoginWarning
 import com.example.arvocado_android.util.safeEnqueue
 import com.example.arvocado_android.util.startActivity
+import com.example.arvocado_android.util.toast
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
+import timber.log.Timber
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -34,11 +37,11 @@ class CameraActivity : AppCompatActivity() {
     private var transaction :FragmentTransaction = supportFragmentManager.beginTransaction()
     private lateinit var wordList : List<CategoryWordResponse>
 
-    val list = listOf<Fragment>(StartFragment(), LearningFragment(),CompleteFragment())
+    val list = listOf<Fragment>(StartFragment(), LearningFragment(), CompleteFragment())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
-        c_idx = intent.getIntExtra("c_idx",0)
+        c_idx = intent.getIntExtra("c_idx", 0)
         c_name = intent.getStringExtra("c_name").toString()
         requestCategoryWord()
 
@@ -52,51 +55,55 @@ class CameraActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction()
             .add(R.id.container, StartFragment().apply {
                 this.arguments = Bundle().apply {
-                    putString("c_name",c_name)
+                    putString("c_name", c_name)
                 }
             })
             .commit()
 
     }
-    fun finishWordFragment(w_idx:Int) {
+    fun finishWordFragment(w_idx: Int) {
         when(w_idx) {
             list.size -> {
-                startActivity(CategoryActivity::class,true)
+                startActivity(CategoryActivity::class, true)
             }
             else -> {
+                requestCategoryWord()
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, list[1].apply {
                         this.arguments = Bundle().apply {
                             putSerializable("wordData", wordList[w_idx])
                         }
                     })
-                    .commitAllowingStateLoss()
+                    .commitNow()
             }
         }
     }
     fun endWordFragment(w_idx: Int) {
+        requestCategoryWord()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, list[2].apply {
                 this.arguments = Bundle().apply {
-                    putSerializable("wordData", wordList[w_idx-1])
-                    putInt("totalWord",wordList.size)
+                    putSerializable("wordData", wordList[w_idx - 1])
+                    putInt("totalWord", wordList.size)
                 }
             })
-            .commitAllowingStateLoss()
+            .commitNow()
     }
     fun backFragment(w_idx: Int) {
         when(w_idx) {
             1 -> {
-                startActivity(CategoryActivity::class,true)
+                startActivity(CategoryActivity::class, true)
             }
             else -> {
-                supportFragmentManager.beginTransaction()
+                Timber.e("ddd?")
+                supportFragmentManager.beginTransaction().attach(list[1]).detach(list[1])
                     .replace(R.id.container, list[1].apply {
                         this.arguments = Bundle().apply {
-                            putSerializable("wordData", wordList[w_idx-1])
+                            putSerializable("wordData", wordList[w_idx - 1])
+                            putInt("totalWord", wordList.size)
                         }
                     })
-                    .commitAllowingStateLoss()
+                    .commitNow()
             }
         }
     }
@@ -129,15 +136,17 @@ class CameraActivity : AppCompatActivity() {
                 cameraProvider.unbindAll()
 
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview)
-            } catch(e: Exception) {
+                    this, cameraSelector, preview
+                )
+            } catch (e: Exception) {
                 Log.e(TAG, "binding falied", e)
             }
         }, ContextCompat.getMainExecutor(this))
     }
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
-            baseContext, it) == PackageManager.PERMISSION_GRANTED
+            baseContext, it
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onRequestPermissionsResult(
@@ -146,7 +155,7 @@ class CameraActivity : AppCompatActivity() {
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Log.d(TAG, "requestCode >> "+requestCode)
+        Log.d(TAG, "requestCode >> " + requestCode)
         if(requestCode == REQUEST_CODE_PERMISSIONS) {
             if(allPermissionsGranted()) {
                 startCamera()
@@ -162,11 +171,14 @@ class CameraActivity : AppCompatActivity() {
         cameraExecutor.shutdown()
     }
     private fun requestCategoryWord() {
-
-            networkManager.requestCategoryWord(c_idx).safeEnqueue(
+            networkManager.requestCategoryWord(authManager.token, c_idx).safeEnqueue(
                 onSuccess = {
                     if (it.success) {
                         wordList = it.data
+                    } else {
+                        authManager.token = "0"
+                        authManager.autoLogin = false
+                        initLoginWarning(this)
                     }
                 },
                 onError = {
@@ -176,6 +188,7 @@ class CameraActivity : AppCompatActivity() {
 
                 }
             )
+
     }
     override fun onBackPressed() {
         //  super.onBackPressed()
@@ -184,8 +197,7 @@ class CameraActivity : AppCompatActivity() {
         (fragment as? fragmentBackPressed)?.onBackPressed()?.not()?.let {
             if (it == false) {
                 if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
-                    backKeyPressedTime = System.currentTimeMillis()
-                    return
+                    toast("한번 더 누르면 단어 학습이 종료되고, 카테고리로 넘어가게 됩니다. 종료하시겠습니까?")
                 } else {
                     this.finish()
                 }

@@ -16,6 +16,7 @@ import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.ProgressAdapter
 import com.example.arvocado_android.ui.camera.CameraActivity
+import com.example.arvocado_android.util.initLoginWarning
 import com.example.arvocado_android.util.networkErrorToast
 import com.example.arvocado_android.util.safeEnqueue
 import kotlinx.android.synthetic.main.activity_progress_rate.*
@@ -42,23 +43,27 @@ class ProgressRateActivity : AppCompatActivity() {
         addItemDecoration(VerticalItemDecorator(32))
     }
 
-        networkManager.requestCategory(authManager.token).safeEnqueue(
-            onSuccess = {
-                if (it.success) {
-                    if (!it.data.isNullOrEmpty()) {
-                        progressAdapter.initData(it.data)
+            networkManager.requestCategory(authManager.token).safeEnqueue(
+                onSuccess = {
+                    if (it.success) {
+                        if (!it.data.isNullOrEmpty()) {
+                            progressAdapter.initData(it.data)
+                        }
+                    } else {
+                        authManager.token = "0"
+                        authManager.autoLogin = false
+                        initLoginWarning(this)
+                        Timber.e(it.message)
                     }
-                } else {
-                    Timber.e(it.message)
+                },
+                onFailure = {
+                },
+                onError = {
+                    Timber.e(it)
+                    networkErrorToast()
                 }
-            },
-            onFailure = {
-            },
-            onError = {
-                Timber.e(it)
-                networkErrorToast()
-            }
-        )
+            )
+
 
 
         progressAdapter.setOnItemClickListener(object : ProgressAdapter.OnItemClickListener{

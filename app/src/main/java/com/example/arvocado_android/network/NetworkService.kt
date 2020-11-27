@@ -56,6 +56,7 @@ interface NetworkService {
      */
     @GET("/word")
     fun requestCategoryWord(
+        @Header("token") token:String,
         @Query("category") c_idx : Int
     ) : Call<BaseResponse<List<CategoryWordResponse>>>
 
@@ -72,7 +73,7 @@ interface NetworkService {
     /**
      * 단어 스크랩
      */
-    @POST("/scrap")
+    @PUT("/scrap")
     fun requestScrap(
         @Header("token") token:String,
         @Body data : WordScrapResponse
