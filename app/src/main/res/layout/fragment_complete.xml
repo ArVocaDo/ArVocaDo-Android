@@ -78,7 +78,8 @@
         app:rcRadius="41dp"
         app:rcAnimationSpeedScale="1"
         app:rcSecondaryProgress="60"
-        app:rcSecondaryProgressColor="@color/colorAccent"
+        app:rcProgressColor="@color/colorMain"
+        app:rcSecondaryProgressColor="@color/colorGreen50"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toTopOf="parent"/>
 
@@ -90,16 +91,5 @@
         android:layout_marginTop="275dp"
         android:background="@drawable/btn_keepgoing"
         app:layout_constraintBottom_toBottomOf="parent" />
-
-    <ImageView
-        android:id="@+id/imgScrap"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginRight="23dp"
-        android:layout_gravity="right"
-        android:background="@drawable/btn_scrap_active"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"/>
 
 </FrameLayout>

@@ -1,5 +1,7 @@
 package com.example.arvocado_android.data.response
 
+import java.io.Serializable
+
 data class CategoryWordResponse(
     val w_idx : Int,
     val c_idx : Int,
@@ -12,4 +14,4 @@ data class CategoryWordResponse(
     val audio_kor : String,
     val index : Int,
     var isScraped : Boolean
-)
+) : Serializable
