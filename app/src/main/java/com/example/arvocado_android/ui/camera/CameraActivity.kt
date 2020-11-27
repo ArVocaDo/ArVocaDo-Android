@@ -2,6 +2,7 @@ package com.example.arvocado_android.ui.camera
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -17,6 +18,8 @@ import com.example.arvocado_android.R
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.util.safeEnqueue
+import com.google.ar.core.ArCoreApk
+import com.google.ar.core.Session
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
 import java.util.concurrent.ExecutorService
@@ -111,6 +114,7 @@ class CameraActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
