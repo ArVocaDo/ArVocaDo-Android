@@ -3,6 +3,7 @@ package com.example.arvocado_android.ui.camera
 import android.Manifest
 import android.app.Activity
 import android.content.pm.PackageManager
+import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -21,6 +22,8 @@ import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.util.safeEnqueue
+import com.google.ar.core.ArCoreApk
+import com.google.ar.core.Session
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.fragment_start.*
 import okhttp3.internal.EMPTY_REQUEST
@@ -108,6 +111,7 @@ class CameraActivity : AppCompatActivity() {
             }
         }
     }
+
     override fun onDestroy() {
         super.onDestroy()
         cameraExecutor.shutdown()
