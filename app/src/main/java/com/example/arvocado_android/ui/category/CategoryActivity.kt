@@ -37,18 +37,13 @@ class CategoryActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_category)
 
-        if(token.isNullOrEmpty()) {
-            token = "0"
-        }
-        Timber.e("token ${token}")
-
         initCategory()
         initSound()
         imgCategoryUser.setOnDebounceClickListener {
-            if(token.equals("0")) {
+            if(authManager.token.equals("0")) {
                 initWarningDialog(this, str="로그인 후 이용 가능한 서비스 입니다.",str2 ="로그인을 해주세요!")
             } else {
-                startActivity(MyPageActivity::class, false)
+                startActivity(MyPageActivity::class, true)
             }
         }
     }
@@ -103,9 +98,11 @@ class CategoryActivity : AppCompatActivity() {
                         if (!it.data.isNullOrEmpty()) {
                             categoryAdatper.initData(it.data)
                         }
-                    } else {
-                        Timber.e(it.message)
+                    } else {  authManager.token = "0"
+                        authManager.autoLogin = false
+                        initLoginWarning(this)
                     }
+
                 },
                 onFailure = {
                 },
@@ -114,6 +111,7 @@ class CategoryActivity : AppCompatActivity() {
                     networkErrorToast()
                 }
             )
+
 
 
 
@@ -129,7 +127,8 @@ class CategoryActivity : AppCompatActivity() {
                     putExtra("c_name",data.c_name)
                     putExtra("c_idx",data.c_idx)
             }.run {
-                GlobalApp.startActivity(this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                    startActivity(this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                    finish()
             }
             }
         })

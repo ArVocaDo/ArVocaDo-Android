@@ -33,7 +33,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".ui.sound.SpeechTestActivity"/>
         <activity
             android:name=".ui.mypage.ProgressRateActivity"
             android:screenOrientation="landscape" />
@@ -53,10 +52,6 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".ui.camera.Arcore2Activity"
-            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".ui.category.CategoryActivity"

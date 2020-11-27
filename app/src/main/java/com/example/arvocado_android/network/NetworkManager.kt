@@ -34,7 +34,7 @@ class NetworkManager() {
     fun requestSignUp(data : SignUpRequest) = retrofit.requestSignUp(data)
     fun requestSignUpEmail(email : String) = retrofit.requestSignUpEmail(email)
     fun requestCategory(token : String) = retrofit.requestCategory(token)
-    fun requestCategoryWord(c_idx : Int) = retrofit.requestCategoryWord(c_idx)
+    fun requestCategoryWord(token: String,c_idx:Int) = retrofit.requestCategoryWord(token, c_idx)
     fun requestCategoryProgress(token: String,data : CategoryProgressResponse) = retrofit.requestCategoryProgress(token,data)
     fun requestScrap(token: String,data : WordScrapResponse) = retrofit.requestScrap(token,data)
     fun requestScrapWord(token: String) = retrofit.requestScarpWord(token)

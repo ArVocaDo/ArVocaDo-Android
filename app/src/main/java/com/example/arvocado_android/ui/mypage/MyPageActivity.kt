@@ -28,7 +28,7 @@ class MyPageActivity : AppCompatActivity() {
             finish()
         }
         imgUserLogout.setOnDebounceClickListener {
-            authManager.token=""
+            authManager.token="0"
             authManager.autoLogin = false
             startActivity(MainActivity::class, true)
         }

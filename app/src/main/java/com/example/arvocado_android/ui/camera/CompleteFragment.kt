@@ -11,13 +11,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.arvocado_android.ArVocaDoApplication
+import com.example.arvocado_android.ArVocaDoApplication.Companion.GlobalApp
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
+import com.example.arvocado_android.data.request.CategoryProgressResponse
 import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.main.MainActivity
+import com.example.arvocado_android.util.initLoginWarning
+import com.example.arvocado_android.util.safeEnqueue
 import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.dialog_guest_learning.view.*
 import kotlinx.android.synthetic.main.fragment_complete.*
@@ -58,68 +61,74 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
         pbComplete.max = 100f
         pbComplete.setSecondaryProgress((p*1.3).roundToInt())
         btnCompleteContinue.setOnDebounceClickListener {
-            if (!authManager.token.isNullOrEmpty()) {
-                cameraActivity!!.finishWordFragment(word.w_idx)
-                if(authManager.soundCheck) {
-                    val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
-                    val r3: Ringtone = RingtoneManager.getRingtone(context, path)
-                    r3.play()
-                }
-//                networkManager.requestCategoryProgress(authManager.token, CategoryProgressResponse(word.c_idx, word.w_idx)).safeEnqueue(
-//                    onSuccess = {
-//                        if(it.success) {
-//
-//                        }
-//                    },
-//                    onFailure = {
-//
-//                    },
-//                    onError = {
-//
-//                    }
-//                )
+            if (!authManager.token.equals("0")) {
+                networkManager.requestCategoryProgress(authManager.token, CategoryProgressResponse(word.c_idx, word.index)).safeEnqueue(
+                    onSuccess = {
+                        if(it.success) {
+                            cameraActivity!!.finishWordFragment(word.w_idx)
+                            if(authManager.soundCheck) {
+                                val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
+                                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
+                                r3.play()
+                            }
+
+                        } else {
+                            authManager.token = "0"
+                            authManager.autoLogin = false
+                            initLoginWarning(cameraActivity!!)
+                        }
+                    },
+                    onFailure = {
+
+                    },
+                    onError = {
+
+                    }
+                )
 
             } else {
-                initWarningDialog()
+                initGuestWarning()
             }
         }
         btnBackDown.setOnDebounceClickListener {
-            cameraActivity!!.backFragment(word.w_idx)
+            cameraActivity!!.backFragment(word.index)
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
+                val path: Uri = Uri.parse("android.resource://"+ GlobalApp!!.packageName+"/"+R.raw.button_sound)
                 val r3: Ringtone = RingtoneManager.getRingtone(context, path)
                 r3.play()
             }
         }
 
     }
-    private fun initWarningDialog() {
+    private fun initGuestWarning() {
         val dialog = androidx.appcompat.app.AlertDialog.Builder(requireActivity()).create()
-        val view = LayoutInflater.from(ArVocaDoApplication.GlobalApp).inflate(R.layout.dialog_guest_learning, null)
+        val view = LayoutInflater.from(GlobalApp).inflate(R.layout.dialog_guest_learning, null)
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        view.btnCancel.setOnDebounceClickListener {
+        view.btnCancel.setOnClickListener {
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
+                val path: Uri = Uri.parse("android.resource://"+GlobalApp!!.packageName+"/"+R.raw.button_sound)
                 val r3: Ringtone = RingtoneManager.getRingtone(context, path)
                 r3.play()
             }
             dialog.cancel()
         }
-        view.btnLogin.setOnDebounceClickListener {
+        view.btnLogin.setOnClickListener {
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
+                val path: Uri = Uri.parse("android.resource://"+GlobalApp!!.packageName+"/"+R.raw.button_sound)
                 val r3: Ringtone = RingtoneManager.getRingtone(context, path)
                 r3.play()
             }
             startActivity(MainActivity::class, true)
+            dialog.cancel()
         }
-        view.btnKeepGoing.setOnDebounceClickListener {
+        view.btnKeepGoing.setOnClickListener {
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
+                val path: Uri = Uri.parse("android.resource://"+requireActivity()!!.packageName+"/"+R.raw.button_sound)
                 val r3: Ringtone = RingtoneManager.getRingtone(context, path)
                 r3.play()
             }
             cameraActivity!!.finishWordFragment(word.w_idx)
+            dialog.cancel()
         }
 
         dialog.apply {
@@ -131,5 +140,6 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
     override fun onBackPressed(): Boolean {
         return true
     }
+
 
 }
