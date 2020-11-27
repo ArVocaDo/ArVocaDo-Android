@@ -5,6 +5,7 @@ import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -13,6 +14,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
@@ -43,8 +45,13 @@ class CameraActivity : AppCompatActivity() {
         requestCategoryWord()
         initCamera()
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, StartFragment())
+            .add(R.id.container, CompleteFragment())
             .commit()
+    }
+
+    fun replaceFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, fragment)
     }
 
     private fun initCamera() {
