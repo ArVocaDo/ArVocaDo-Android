@@ -25,6 +25,7 @@ class SignupEmailActivity : AppCompatActivity() {
         if(!email.equals("null")) {
             editSignUpE.setText(email)
             Timber.e("error + ${email}")
+
         }
 
 

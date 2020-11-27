@@ -15,7 +15,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.arvocado_android"
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
@@ -127,5 +127,8 @@ dependencies {
     implementation 'com.akexorcist:round-corner-progress-bar:2.1.1'
 
     implementation 'com.google.ar:core:1.21.0'
+    implementation 'de.javagl:obj:0.2.1'
+    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.15.0'
+    implementation 'com.google.ar.sceneform:core:1.15.0'
 
 }
