@@ -25,15 +25,15 @@ class Arcore2Activity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_arcore2)
 
         arFragment= ArFragment() //Initialise the ARFragment
         //arFragment = supportFragmentManager.findFragmentById(R.id.arFragment)
 
         // When you tap on a detected plane, a callback function is called which adds a Node to the Scene
         arFragment.setOnTapArPlaneListener{hitResult,x,y ->
-            loadModel{modelRenderable, viewRenderable ->
-                addNodeToScene(hitResult.createAnchor(),modelRenderable,viewRenderable)
+            loadModel{modelRenderable ->
+                addNodeToScene(hitResult.createAnchor(), modelRenderable)
             }
         }
 
@@ -42,8 +42,7 @@ class Arcore2Activity : AppCompatActivity() {
     // Uses the ModelRenderable and the ViewRenderable objects to add a Node to the Scene
     private fun addNodeToScene(
         anchor: Anchor,
-        modelRenderable: ModelRenderable,
-        viewRenderable: ViewRenderable
+        modelRenderable: ModelRenderable
     ) {
         val anchorNode = AnchorNode(anchor)
         val modelNode = TransformableNode(arFragment.transformationSystem).apply {
@@ -52,53 +51,24 @@ class Arcore2Activity : AppCompatActivity() {
             arFragment.arSceneView.scene.addChild(anchorNode)
             select()
         }
-        val viewNode = Node().apply {
-            renderable = null
-            setParent(modelNode)
-            val box = modelNode.renderable?.collisionShape as Box
-            localPosition = Vector3(0f, box.size.y, 0f)
-            (viewRenderable.view as Button).setOnClickListener {
-                arFragment.arSceneView.scene.removeChild(anchorNode)
-                viewNodes.remove(this)
-            }
-        }
-        viewNodes.add(viewNode)
+
         modelNode.setOnTapListener { _, _ ->
             if(!modelNode.isTransforming) {
-                if(viewNode.renderable == null) {
-                    viewNode.renderable = viewRenderable
-                } else {
-                    viewNode.renderable = null
-                }
+
             }
         }
     }
-
-
-    // To remove the object that is placed in the scene
-    private fun createDeleteButton(): Button {
-        return Button(this).apply {
-            text = "REMOVE"
-            setBackgroundColor(Color.CYAN)
-            setTextColor(Color.WHITE)
-        }
-    }
-
 
 
     //This functions load the model
-    private fun loadModel(callback: (ModelRenderable, ViewRenderable) -> Unit) {
+    private fun loadModel(callback: (ModelRenderable, ) -> Unit) {
         val modelRenderable = ModelRenderable.builder()
             .setSource(this, R.raw.kiwi)
             .build()
 
-        val viewRenderable = ViewRenderable.builder()
-            .setView(this, createDeleteButton())
-            .build()
-
-        CompletableFuture.allOf(modelRenderable, viewRenderable)
+        CompletableFuture.allOf(modelRenderable)
             .thenAccept {
-                callback(modelRenderable.get(), viewRenderable.get())
+                callback(modelRenderable.get())
             }
             .exceptionally {
                 Toast.makeText(this, "Error loading model: $it", Toast.LENGTH_LONG).show()
