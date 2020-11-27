@@ -126,7 +126,6 @@ class CameraActivity : AppCompatActivity() {
 
                 }
             )
-
     }
     companion object {
         private const val TAG = "ARVOCADO_CAMERAACTIVITY"
