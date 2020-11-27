@@ -31,7 +31,10 @@ class StartFragment : Fragment() ,fragmentBackPressed{
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnLearningStart.setOnDebounceClickListener {
-            cameraActivity!!.replaceFragment(1)
+            cameraActivity!!.finishWordFragment(0)
+        }
+        btnBackDown.setOnDebounceClickListener {
+            cameraActivity!!.backFragment(1)
         }
 
 

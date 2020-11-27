@@ -2,7 +2,6 @@ package com.example.arvocado_android.ui.camera
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.opengl.GLSurfaceView
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
@@ -15,11 +14,12 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.arvocado_android.R
+import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
+import com.example.arvocado_android.ui.category.CategoryActivity
 import com.example.arvocado_android.util.safeEnqueue
-import com.google.ar.core.ArCoreApk
-import com.google.ar.core.Session
+import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
 import java.util.concurrent.ExecutorService
@@ -30,10 +30,8 @@ class CameraActivity : AppCompatActivity() {
     private val networkManager : NetworkManager by inject()
     private val authManager : AuthManager by inject()
     private lateinit var cameraExecutor: ExecutorService
-    private val startFragment: StartFragment = StartFragment()
-    private val learningFragment: LearningFragment = LearningFragment()
-    private val completeFragment: CompleteFragment = CompleteFragment()
     private var transaction :FragmentTransaction = supportFragmentManager.beginTransaction()
+    private lateinit var wordList : List<CategoryWordResponse>
 
     val list = listOf<Fragment>(StartFragment(), LearningFragment(),CompleteFragment())
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +39,8 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
         c_idx = intent.getIntExtra("c_idx",0)
         requestCategoryWord()
+
+
         initCamera()
         initSettingFragment()
 
@@ -52,13 +52,48 @@ class CameraActivity : AppCompatActivity() {
             .commit()
 
     }
-
-    fun replaceFragment(i : Int) {
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, list[i])
-            .commitAllowingStateLoss()
-
+    fun finishWordFragment(w_idx:Int) {
+        when(w_idx) {
+            list.size -> {
+                startActivity(CategoryActivity::class,true)
+            }
+            else -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, list[1].apply {
+                        this.arguments = Bundle().apply {
+                            putSerializable("wordData", wordList[w_idx])
+                        }
+                    })
+                    .commitAllowingStateLoss()
+            }
+        }
     }
+    fun endWordFragment(w_idx: Int) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.container, list[2].apply {
+                this.arguments = Bundle().apply {
+                    putSerializable("wordData", wordList[w_idx-1])
+                }
+            })
+            .commitAllowingStateLoss()
+    }
+    fun backFragment(w_idx: Int) {
+        when(w_idx) {
+            1 -> {
+                startActivity(CategoryActivity::class,true)
+            }
+            else -> {
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.container, list[1].apply {
+                        this.arguments = Bundle().apply {
+                            putSerializable("wordData", wordList[w_idx])
+                        }
+                    })
+                    .commitAllowingStateLoss()
+            }
+        }
+    }
+
 
     private fun initCamera() {
         if(allPermissionsGranted()) {
@@ -124,6 +159,7 @@ class CameraActivity : AppCompatActivity() {
             networkManager.requestCategoryWord(c_idx).safeEnqueue(
                 onSuccess = {
                     if (it.success) {
+                        wordList = it.data
                     }
                 },
                 onError = {
