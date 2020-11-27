@@ -20,5 +20,6 @@
     <color name="colorBoldYellow">#fae5ac</color>
     <color name="colorGrey">#979797</color>
     <color name="colorBackgroundGrey">#454545</color>
+    <color name="colorShadow">#666666</color>
 
 </resources>
