@@ -9,7 +9,7 @@
 
     <uses-feature android:name="android.hardware.camera.any" />
     <uses-feature android:name="android.hardware.camera.ar"/>
-    <uses-feature android:glEsVersion="0x00020000" android:required="true"/>
+    <uses-feature android:glEsVersion="0x00030000" android:required="true"/>
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -33,6 +33,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
+        <meta-data android:name="com.google.ar.core" android:value="required"/>
         <activity android:name=".ui.sound.SpeechTestActivity"></activity>
         <activity
             android:name=".ui.mypage.ProgressRateActivity"
@@ -73,16 +75,19 @@
             android:name=".ui.camera.CameraActivity"
             android:screenOrientation="landscape" >
             <meta-data android:name="com.google.ar.core" android:value="required"/>
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
-            android:screenOrientation="landscape" />
-
+            android:screenOrientation="landscape" >
+        </activity>
+        <activity
+            android:name=".ui.camera.Arcore2Activity"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>

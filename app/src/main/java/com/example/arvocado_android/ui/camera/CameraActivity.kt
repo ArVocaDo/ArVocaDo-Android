@@ -90,7 +90,7 @@ class CameraActivity : AppCompatActivity() {
             }
         }, ContextCompat.getMainExecutor(this))
     }
-    private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
+    fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(
             baseContext, it) == PackageManager.PERMISSION_GRANTED
     }
@@ -104,6 +104,7 @@ class CameraActivity : AppCompatActivity() {
         Log.d(TAG, "requestCode >> "+requestCode)
         if(requestCode == REQUEST_CODE_PERMISSIONS) {
             if(allPermissionsGranted()) {
+
                 startCamera()
             }
             else {
