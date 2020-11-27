@@ -49,14 +49,14 @@
         <activity
             android:name=".ui.main.SplashActivity"
             android:screenOrientation="landscape">
-        </activity>
-        <activity
-            android:name=".ui.camera.Arcore2Activity"
-            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.camera.Arcore2Activity"
+            android:screenOrientation="landscape">
         </activity>
         <activity
             android:name=".ui.category.CategoryActivity"
@@ -84,7 +84,7 @@
         <activity
             android:name=".ui.main.MainActivity"
             android:screenOrientation="landscape" />
-
+        <meta-data android:name="com.google.ar.core" android:value="required"/>
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
