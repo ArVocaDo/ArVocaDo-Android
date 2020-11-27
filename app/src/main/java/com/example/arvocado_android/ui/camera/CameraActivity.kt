@@ -26,7 +26,8 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class CameraActivity : AppCompatActivity() {
-    var c_idx : Int = 0
+    private var c_idx : Int = 0
+    private lateinit var c_name : String
     private val networkManager : NetworkManager by inject()
     private val authManager : AuthManager by inject()
     private lateinit var cameraExecutor: ExecutorService
@@ -38,6 +39,7 @@ class CameraActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
         c_idx = intent.getIntExtra("c_idx",0)
+        c_name = intent.getStringExtra("c_name").toString()
         requestCategoryWord()
 
 
@@ -48,7 +50,11 @@ class CameraActivity : AppCompatActivity() {
     }
     private fun initSettingFragment() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, StartFragment())
+            .add(R.id.container, StartFragment().apply {
+                this.arguments = Bundle().apply {
+                    putString("c_name",c_name)
+                }
+            })
             .commit()
 
     }
@@ -73,6 +79,7 @@ class CameraActivity : AppCompatActivity() {
             .replace(R.id.container, list[2].apply {
                 this.arguments = Bundle().apply {
                     putSerializable("wordData", wordList[w_idx-1])
+                    putInt("totalWord",wordList.size)
                 }
             })
             .commitAllowingStateLoss()
@@ -86,7 +93,7 @@ class CameraActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, list[1].apply {
                         this.arguments = Bundle().apply {
-                            putSerializable("wordData", wordList[w_idx])
+                            putSerializable("wordData", wordList[w_idx-1])
                         }
                     })
                     .commitAllowingStateLoss()

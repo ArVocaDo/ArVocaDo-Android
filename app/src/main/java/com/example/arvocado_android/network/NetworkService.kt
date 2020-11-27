@@ -64,6 +64,7 @@ interface NetworkService {
      */
     @POST("/category/progress")
     fun requestCategoryProgress(
+        @Header("token") token:String,
         @Body data : CategoryProgressResponse
     ) : Call<BaseResponse<Unit>>
 
@@ -73,9 +74,9 @@ interface NetworkService {
      */
     @POST("/scrap")
     fun requestScrap(
+        @Header("token") token:String,
         @Body data : WordScrapResponse
     ) : Call<BaseResponse<Unit>>
-
 
     /**
      * 스크랩 단어 조회

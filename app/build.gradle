@@ -2,6 +2,12 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin : 'com.google.ar.sceneform.plugin'
+
+sceneform.asset('sampledata/kiwi.obj',
+        'default',
+        'sampledata/kiwi.sfa',
+        'src/main/res/raw/kiwi')
 
 android {
     compileSdkVersion 30
