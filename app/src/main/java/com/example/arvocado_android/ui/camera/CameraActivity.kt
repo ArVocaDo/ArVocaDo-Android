@@ -1,29 +1,23 @@
 package com.example.arvocado_android.ui.camera
 
 import android.Manifest
-import android.app.Activity
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.example.arvocado_android.R
-import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.util.safeEnqueue
 import kotlinx.android.synthetic.main.activity_camera.*
-import kotlinx.android.synthetic.main.fragment_start.*
-import okhttp3.internal.EMPTY_REQUEST
 import org.koin.android.ext.android.inject
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -38,20 +32,29 @@ class CameraActivity : AppCompatActivity() {
     private val completeFragment: CompleteFragment = CompleteFragment()
     private var transaction :FragmentTransaction = supportFragmentManager.beginTransaction()
 
+    val list = listOf<Fragment>(StartFragment(), LearningFragment(),CompleteFragment())
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_camera)
         c_idx = intent.getIntExtra("c_idx",0)
         requestCategoryWord()
         initCamera()
+        initSettingFragment()
+
+
+    }
+    private fun initSettingFragment() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, CompleteFragment())
+            .add(R.id.container, StartFragment())
             .commit()
+
     }
 
-    fun replaceFragment(fragment: Fragment) {
+    fun replaceFragment(i : Int) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
+            .replace(R.id.container, list[i])
+            .commitAllowingStateLoss()
+
     }
 
     private fun initCamera() {
@@ -127,9 +130,25 @@ class CameraActivity : AppCompatActivity() {
                 }
             )
     }
+    override fun onBackPressed() {
+        //  super.onBackPressed()
+        val fragment = this.supportFragmentManager.findFragmentById(R.id.container)
+
+        (fragment as? fragmentBackPressed)?.onBackPressed()?.not()?.let {
+            if (it == false) {
+                if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+                    backKeyPressedTime = System.currentTimeMillis()
+                    return
+                } else {
+                    this.finish()
+                }
+            }
+        }
+    }
     companion object {
         private const val TAG = "ARVOCADO_CAMERAACTIVITY"
         private val REQUIRED_PERMISSIONS = arrayOf(Manifest.permission.CAMERA)
         private const val REQUEST_CODE_PERMISSIONS = 10
+        private var backKeyPressedTime : Long = 0
     }
 }
