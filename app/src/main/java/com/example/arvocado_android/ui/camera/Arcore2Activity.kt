@@ -21,7 +21,6 @@ class Arcore2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_arcore2)
-        Toast.makeText(this, "arcore2 activity is started ", Toast.LENGTH_SHORT).show()
         arFragment= supportFragmentManager.findFragmentById(R.id.arFragment) as ArFragment
 
         arFragment.setOnTapArPlaneListener(BaseArFragment.OnTapArPlaneListener { hitResult, plane, motionEvent ->
