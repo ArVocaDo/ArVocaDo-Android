@@ -50,6 +50,7 @@ class CameraActivity : AppCompatActivity() {
         initSettingFragment()
 
 
+
     }
     private fun initSettingFragment() {
         supportFragmentManager.beginTransaction()

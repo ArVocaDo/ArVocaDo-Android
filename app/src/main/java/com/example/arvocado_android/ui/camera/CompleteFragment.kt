@@ -67,7 +67,7 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
                         if(it.success) {
                             cameraActivity!!.finishWordFragment(word.w_idx)
                             if(authManager.soundCheck) {
-                                val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
+                                val path: Uri = Uri.parse("android.resource://"+ mp3packageName!!+"/"+R.raw.button_sound)
                                 val r3: Ringtone = RingtoneManager.getRingtone(context, path)
                                 r3.play()
                             }

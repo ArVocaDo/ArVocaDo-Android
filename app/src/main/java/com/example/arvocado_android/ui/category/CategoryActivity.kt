@@ -20,6 +20,7 @@ import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.CategoryAdapter
 import com.example.arvocado_android.ui.camera.CameraActivity
+import com.example.arvocado_android.ui.camera.mp3packageName
 import com.example.arvocado_android.ui.mypage.MyPageActivity
 import com.example.arvocado_android.util.*
 import kotlinx.android.synthetic.main.activity_category.*
@@ -119,6 +120,7 @@ class CategoryActivity : AppCompatActivity() {
         categoryAdatper.setOnItemClickListener(object : CategoryAdapter.OnItemClickListener{
             override fun onItemClick(v: View, data: CategoryResponse, pos: Int) {
                 if(authManager.soundCheck) {
+                    mp3packageName = packageName
                     val path: Uri = Uri.parse("android.resource://"+packageName+"/"+R.raw.button_sound)
                     val r3: Ringtone = RingtoneManager.getRingtone(applicationContext, path)
                     r3.play()
