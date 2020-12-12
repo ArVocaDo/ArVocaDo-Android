@@ -14,7 +14,7 @@ import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import com.google.ar.sceneform.ux.BaseArFragment
 
-class Arcore2Activity : AppCompatActivity() {
+class ArcoreActivity : AppCompatActivity() {
     private lateinit var arFragment: ArFragment //The ARFragment where you detect and tap on plane
     val viewNodes = mutableListOf<Node>() // List of all nodes.
 
