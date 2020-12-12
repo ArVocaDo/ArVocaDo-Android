@@ -1,18 +1,18 @@
 package com.example.arvocado_android.ui.camera
 
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
 import com.google.ar.core.Anchor
 import com.google.ar.sceneform.AnchorNode
-import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
-import com.google.ar.sceneform.ux.TransformableNode
 import com.google.ar.sceneform.ux.BaseArFragment
+import com.google.ar.sceneform.ux.TransformableNode
+import org.w3c.dom.Node
+
 
 class ArcoreActivity : AppCompatActivity() {
     private lateinit var arFragment: ArFragment //The ARFragment where you detect and tap on plane

@@ -14,6 +14,7 @@ import com.example.arvocado_android.data.response.ScrapWordResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.ScrapWordAdapter
+import com.example.arvocado_android.util.initLoginWarning
 import com.example.arvocado_android.util.networkErrorToast
 import com.example.arvocado_android.util.safeEnqueue
 import kotlinx.android.synthetic.main.activity_scrap_word.*
@@ -39,25 +40,28 @@ class ScrapWordActivity : AppCompatActivity() {
             addItemDecoration(VerticalItemDecorator(32))
         }
 
-            networkManager.requestScrapWord(authManager.token).safeEnqueue(
-                onSuccess = {
-                    if (it.success) {
-                        if (!it.data.isNullOrEmpty()) {
-                            wordAdapter.initData(it.data)
-                            tvRvWordTitle.text = it.data.size.toString()+"개"
+        networkManager.requestScrapWord(authManager.token).safeEnqueue(
+            onSuccess = {
+                if (it.success) {
+                    if (!it.data.isNullOrEmpty()) {
+                        wordAdapter.initData(it.data)
+                        tvRvWordTitle.text = it.data.size.toString() + "개"
 
-                        }
-                    } else {
-                        Timber.e(it.message)
                     }
-                },
-                onFailure = {
-                },
-                onError = {
-                    Timber.e(it)
-                    networkErrorToast()
+                } else {
+                    authManager.token = "0"
+                    authManager.autoLogin = false
+                    initLoginWarning(this)
+                    Timber.e(it.message)
                 }
-            )
+            },
+            onFailure = {
+            },
+            onError = {
+                Timber.e(it)
+                networkErrorToast()
+            }
+        )
 
 
         wordAdapter.setOnItemClickListener(object : ScrapWordAdapter.OnItemClickListener{
