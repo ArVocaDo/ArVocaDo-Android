@@ -55,7 +55,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.camera.Arcore2Activity"
+            android:name=".ui.camera.ArcoreActivity"
             android:screenOrientation="landscape">
         </activity>
         <activity
