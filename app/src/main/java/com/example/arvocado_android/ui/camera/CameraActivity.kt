@@ -24,7 +24,6 @@ import com.example.arvocado_android.util.startActivity
 import com.example.arvocado_android.util.toast
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
-import timber.log.Timber
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -48,6 +47,7 @@ class CameraActivity : AppCompatActivity() {
 
         initCamera()
         initSettingFragment()
+
 
 
     }
@@ -95,15 +95,16 @@ class CameraActivity : AppCompatActivity() {
                 startActivity(CategoryActivity::class, true)
             }
             else -> {
-                Timber.e("ddd?")
-                supportFragmentManager.beginTransaction().attach(list[1]).detach(list[1])
+                supportFragmentManager.beginTransaction().remove(list[1]).commit()
+
+                supportFragmentManager.beginTransaction()
                     .replace(R.id.container, list[1].apply {
                         this.arguments = Bundle().apply {
                             putSerializable("wordData", wordList[w_idx - 1])
                             putInt("totalWord", wordList.size)
                         }
-                    })
-                    .commitNow()
+                    }).commit()
+
             }
         }
     }
