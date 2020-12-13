@@ -47,7 +47,10 @@
         <activity
             android:name=".ui.main.SplashActivity"
             android:screenOrientation="landscape">
-
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ui.category.CategoryActivity"
@@ -87,14 +90,6 @@
         </activity>
         <activity android:name=".ui.camera.Arcore16Activity"
             android:screenOrientation="landscape">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".ui.camera.Arcore162Activity"
-            android:screenOrientation="landscape">
-
         </activity>
     </application>
 

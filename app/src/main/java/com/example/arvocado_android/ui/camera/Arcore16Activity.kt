@@ -14,7 +14,6 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
 import com.example.arvocado_android.data.response.CategoryWordResponse
-import com.google.android.filament.gltfio.Animator
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
@@ -40,7 +39,7 @@ class Arcore16Activity : AppCompatActivity() {
     private lateinit var word: CategoryWordResponse
 
     private class AnimationInstance internal constructor(
-        var animator: Animator,
+        var animator: com.google.android.filament.gltfio.Animator,
         index: Int,
         var startTime: Long
     ) {
@@ -72,7 +71,13 @@ class Arcore16Activity : AppCompatActivity() {
     // FutureReturnValueIgnored is not valid
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        init()
+        /**
+         * 데이터
+         *
+         */
+        word= intent!!.getSerializableExtra("wordData") as CategoryWordResponse
+        Timber.e("wordArcore :: ${word.w_img}")
+
         if (!checkIsSupportedDeviceOrFinish(this)) {
             return
         }
@@ -190,14 +195,7 @@ class Arcore16Activity : AppCompatActivity() {
                 }
             }
     }
-    private fun init() {
-        /**
-         * 데이터
-         *
-         */
-        word= intent?.getSerializableExtra("wordData") as CategoryWordResponse
-        Timber.e("wordArcore :: ${word.w_img}")
-    }
+
 
     companion object {
         private val TAG = Arcore16Activity::class.java.simpleName
