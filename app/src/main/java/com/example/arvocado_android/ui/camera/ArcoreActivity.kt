@@ -1,11 +1,13 @@
 package com.example.arvocado_android.ui.camera
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
 import com.example.arvocado_android.data.response.CategoryWordResponse
+import com.example.arvocado_android.util.startActivity
 import com.google.ar.core.Anchor
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.rendering.ModelRenderable
@@ -15,7 +17,7 @@ import com.google.ar.sceneform.ux.TransformableNode
 import org.w3c.dom.Node
 import timber.log.Timber
 
-
+//Arcore with
 class ArcoreActivity : AppCompatActivity() {
     private lateinit var arFragment: ArFragment //The ARFragment where you detect and tap on plane
     val viewNodes = mutableListOf<Node>() // List of all nodes.
@@ -23,9 +25,12 @@ class ArcoreActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_arcore2)
+        setContentView(R.layout.activity_arcore)
+        openWebpage("https://arvr.google.com/scene-viewer/1.0")
+        //openWebpage("https://arvr.google.com/scene-viewer/1.0?file=https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf")
         arFragment= supportFragmentManager.findFragmentById(R.id.arFragment) as ArFragment
 
+        /*
         arFragment.setOnTapArPlaneListener(BaseArFragment.OnTapArPlaneListener { hitResult, plane, motionEvent ->
             val anchor: Anchor = hitResult.createAnchor()
 
@@ -46,17 +51,28 @@ class ArcoreActivity : AppCompatActivity() {
 //                addNodeToScene(hitResult.createAnchor(), modelRenderable)
 //            }
 //        }
-        init()
+        //init()
+        */
     }
     private fun init() {
         /**
          * 데이터
          *
          */
-        word= intent!!.getSerializableExtra("wordData") as CategoryWordResponse
-        Timber.e("wordArcore2 :: ${word.w_img}")
+        word= intent?.getSerializableExtra("wordData") as CategoryWordResponse
+        Timber.e("wordArcore :: ${word.w_img}")
     }
+    fun openWebpage(url : String) {
+        val sceneViewerIntent = Intent(Intent.ACTION_VIEW)
 
+        var page : Uri = Uri.parse(url).buildUpon()
+            .appendQueryParameter("file", "https://raw.githubusercontent.com/KhronosGroup/glTF-Sample-Models/master/2.0/Avocado/glTF/Avocado.gltf")
+            .appendQueryParameter("mode", "ar_preferred")
+            .build()
+        sceneViewerIntent.setData(page)
+        sceneViewerIntent.setPackage("com.google.ar.core")
+        startActivity(sceneViewerIntent)
+    }
 //    override fun onDestroy() {
 //        if(session != null) {
 //            session!!.close()

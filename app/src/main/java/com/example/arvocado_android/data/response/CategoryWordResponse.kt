@@ -11,5 +11,6 @@ data class CategoryWordResponse(
     val audio_eng : String,
     val audio_kor : String,
     val index : Int,
-    var isScraped : Boolean
+    var isScraped : Boolean,
+    val w_AR : String
 ) : Serializable
