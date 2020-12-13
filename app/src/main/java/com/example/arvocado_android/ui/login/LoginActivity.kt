@@ -1,5 +1,7 @@
 package com.example.arvocado_android.ui.login
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
