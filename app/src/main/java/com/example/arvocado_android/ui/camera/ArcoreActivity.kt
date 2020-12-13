@@ -16,7 +16,7 @@ import org.w3c.dom.Node
 import timber.log.Timber
 
 
-class Arcore2Activity : AppCompatActivity() {
+class ArcoreActivity : AppCompatActivity() {
     private lateinit var arFragment: ArFragment //The ARFragment where you detect and tap on plane
     val viewNodes = mutableListOf<Node>() // List of all nodes.
     private lateinit var word: CategoryWordResponse
