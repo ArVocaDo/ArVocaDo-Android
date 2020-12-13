@@ -316,7 +316,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
                 GlideApp.with(imgWord).load(word.w_img).into(imgWord)
                 imgWord.setOnClickListener {
 
-                    Intent(ArVocaDoApplication.GlobalApp,Arcore2Activity::class.java).apply {
+                    Intent(ArVocaDoApplication.GlobalApp,ArcoreActivity::class.java).apply {
                         putExtra("wordData",word)
                     }.run {
                         startActivity(this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
