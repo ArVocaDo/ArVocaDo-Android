@@ -23,7 +23,7 @@ class ArcoreActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_arcore2)
+        setContentView(R.layout.activity_arcore)
         arFragment= supportFragmentManager.findFragmentById(R.id.arFragment) as ArFragment
 
         arFragment.setOnTapArPlaneListener(BaseArFragment.OnTapArPlaneListener { hitResult, plane, motionEvent ->
@@ -54,7 +54,7 @@ class ArcoreActivity : AppCompatActivity() {
          *
          */
         word= intent!!.getSerializableExtra("wordData") as CategoryWordResponse
-        Timber.e("wordArcore2 :: ${word.w_img}")
+        Timber.e("wordArcore :: ${word.w_img}")
     }
 
 //    override fun onDestroy() {
