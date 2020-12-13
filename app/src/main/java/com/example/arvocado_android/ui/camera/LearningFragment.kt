@@ -26,11 +26,7 @@ import com.example.arvocado_android.data.request.WordScrapResponse
 import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
-import com.example.arvocado_android.ui.sound.PapagoTextTranslate
-import com.example.arvocado_android.util.initWarningDialog
-import com.example.arvocado_android.util.safeEnqueue
-import com.example.arvocado_android.util.setInvisible
-import com.example.arvocado_android.util.toast
+import com.example.arvocado_android.util.*
 import com.kakao.sdk.newtoneapi.SpeechRecognizeListener
 import com.kakao.sdk.newtoneapi.SpeechRecognizerClient
 import com.kakao.sdk.newtoneapi.SpeechRecognizerManager
