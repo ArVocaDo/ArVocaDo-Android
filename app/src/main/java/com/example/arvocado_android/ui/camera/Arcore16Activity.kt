@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
+import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.google.android.filament.gltfio.Animator
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
@@ -26,6 +27,7 @@ import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
+import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -35,6 +37,7 @@ import java.util.function.Function
 class Arcore16Activity : AppCompatActivity() {
     private var arFragment: ArFragment? = null
     private var renderable: Renderable? = null
+    private lateinit var word: CategoryWordResponse
 
     private class AnimationInstance internal constructor(
         var animator: Animator,
@@ -69,10 +72,12 @@ class Arcore16Activity : AppCompatActivity() {
     // FutureReturnValueIgnored is not valid
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        init()
         if (!checkIsSupportedDeviceOrFinish(this)) {
             return
         }
         setContentView(R.layout.acitivity_ux)
+
         arFragment = getSupportFragmentManager().findFragmentById(R.id.ux_fragment) as ArFragment
         val weakActivity =
             WeakReference(this)
@@ -80,7 +85,7 @@ class Arcore16Activity : AppCompatActivity() {
             .setSource(
                 this,
                 Uri.parse(
-                    "https://storage.googleapis.com/ar-answers-in-search-models/static/Tiger/model.glb"
+                    "https://yeonghyeon.s3.ap-northeast-2.amazonaws.com/apple.glb"
                 )
             )
             .setIsFilamentGltf(true)
@@ -97,8 +102,8 @@ class Arcore16Activity : AppCompatActivity() {
                 Function<Throwable, Void?> { throwable: Throwable? ->
                     val toast: Toast = Toast.makeText(
                         this,
-                        "Unable to load Tiger renderable",
-                        Toast.LENGTH_LONG
+                        "Ar object를 로딩하는데 실패했습니다.",
+                        Toast.LENGTH_SHORT
                     )
                     toast.setGravity(Gravity.CENTER, 0, 0)
                     toast.show()
@@ -122,6 +127,13 @@ class Arcore16Activity : AppCompatActivity() {
             model.setParent(anchorNode)
             model.renderable = renderable
             model.select()
+            //if model is tapped
+            model.setOnTapListener {_, _ ->
+                if(!model.isTransforming) {
+                    Toast.makeText(this, word!!.w_AR+" is Tapped", Toast.LENGTH_SHORT).show()
+
+                }
+            }
             val filamentAsset = model.renderableInstance!!.filamentAsset
             if (filamentAsset!!.animator.animationCount > 0) {
                 animators.add(
@@ -139,17 +151,18 @@ class Arcore16Activity : AppCompatActivity() {
                     renderable!!.getMaterial(i)
                 material.setFloat4("baseColorFactor", color)
             }
-            val tigerTitleNode = Node()
-            tigerTitleNode.setParent(model)
-            tigerTitleNode.isEnabled = false
-            tigerTitleNode.localPosition = Vector3(0.0f, 1.0f, 0.0f)
+            //titleNode: AR object 라벨
+            val titleNode = Node()
+            titleNode.setParent(model)
+            titleNode.isEnabled = false
+            titleNode.localPosition = Vector3(0.0f, 1.0f, 0.0f)
             ViewRenderable.builder()
                 .setView(this, R.layout.tiger_card_view)
                 .build()
                 .thenAccept(
                     Consumer<ViewRenderable> { renderable: ViewRenderable? ->
-                        tigerTitleNode.renderable = renderable
-                        tigerTitleNode.isEnabled = true
+                        titleNode.renderable = renderable
+                        titleNode.isEnabled = true
                     }
                 )
                 .exceptionally(
@@ -176,6 +189,14 @@ class Arcore16Activity : AppCompatActivity() {
                     animator.animator.updateBoneMatrices()
                 }
             }
+    }
+    private fun init() {
+        /**
+         * 데이터
+         *
+         */
+        word= intent?.getSerializableExtra("wordData") as CategoryWordResponse
+        Timber.e("wordArcore :: ${word.w_img}")
     }
 
     companion object {
