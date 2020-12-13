@@ -6,6 +6,7 @@ import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
+import com.example.arvocado_android.ui.category.CategoryActivity
 import com.example.arvocado_android.ui.main.MainActivity
 import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_my_page.*
@@ -25,7 +26,7 @@ class MyPageActivity : AppCompatActivity() {
             startActivity(ProgressRateActivity::class,false)
         }
         imgUserCancle.setOnDebounceClickListener {
-            finish()
+            startActivity(CategoryActivity::class,false)
         }
         imgUserLogout.setOnDebounceClickListener {
             authManager.token="0"

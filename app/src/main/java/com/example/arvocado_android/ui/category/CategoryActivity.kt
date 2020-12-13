@@ -89,6 +89,7 @@ class CategoryActivity : AppCompatActivity() {
     }
     private fun initCategory() {
 
+        Timber.e("category 토큰값 :: ${authManager.token}")
         rvCategory.apply {
             adapter = categoryAdatper
             addItemDecoration(HorizontalItemDecorator(14))

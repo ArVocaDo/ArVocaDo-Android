@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
+import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.google.ar.core.Anchor
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.rendering.ModelRenderable
@@ -12,11 +13,13 @@ import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.BaseArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import org.w3c.dom.Node
+import timber.log.Timber
 
 
 class Arcore2Activity : AppCompatActivity() {
     private lateinit var arFragment: ArFragment //The ARFragment where you detect and tap on plane
     val viewNodes = mutableListOf<Node>() // List of all nodes.
+    private lateinit var word: CategoryWordResponse
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +46,15 @@ class Arcore2Activity : AppCompatActivity() {
 //                addNodeToScene(hitResult.createAnchor(), modelRenderable)
 //            }
 //        }
-
+        init()
+    }
+    private fun init() {
+        /**
+         * 데이터
+         *
+         */
+        word= intent!!.getSerializableExtra("wordData") as CategoryWordResponse
+        Timber.e("wordArcore2 :: ${word.w_img}")
     }
 
 //    override fun onDestroy() {

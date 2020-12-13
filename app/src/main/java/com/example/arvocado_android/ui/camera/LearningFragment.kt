@@ -4,6 +4,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.media.Ringtone
 import android.media.RingtoneManager
@@ -20,13 +21,19 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.example.arvocado_android.ArVocaDoApplication
 import com.example.arvocado_android.R
+import com.example.arvocado_android.common.GlideApp
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.data.request.WordScrapResponse
 import com.example.arvocado_android.data.response.CategoryWordResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
-import com.example.arvocado_android.util.*
+import com.example.arvocado_android.ui.sound.PapagoTextTranslate
+import com.example.arvocado_android.util.initWarningDialog
+import com.example.arvocado_android.util.safeEnqueue
+import com.example.arvocado_android.util.setInvisible
+import com.example.arvocado_android.util.toast
 import com.kakao.sdk.newtoneapi.SpeechRecognizeListener
 import com.kakao.sdk.newtoneapi.SpeechRecognizerClient
 import com.kakao.sdk.newtoneapi.SpeechRecognizerManager
@@ -302,6 +309,20 @@ class LearningFragment : Fragment(),fragmentBackPressed {
                 imgComplete.visibility = View.VISIBLE
                 ivMicStatus.visibility = View.INVISIBLE
                 ivMicSound.visibility = View.INVISIBLE
+                imgWord.visibility = View.VISIBLE
+                /**
+                 * 정답시 나오는화면
+                 */
+                GlideApp.with(imgWord).load(word.w_img).into(imgWord)
+                imgWord.setOnClickListener {
+
+                    Intent(ArVocaDoApplication.GlobalApp,Arcore2Activity::class.java).apply {
+                        putExtra("wordData",word)
+                    }.run {
+                        startActivity(this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+                    }
+
+                }
             } else {
                 checkClick = false
                 tvLearningMain.text = "땡 ! 다시 한번 도전해볼까?"
@@ -334,7 +355,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
 
     private fun initScrap() {
         imgScrap.setOnDebounceClickListener {
-            if (!authManager.token.isNullOrEmpty()) {
+            if (authManager.token!="0") {
                 networkManager.requestScrap(
                     authManager.token,
                     WordScrapResponse(c_idx = word.c_idx, w_idx = word.w_idx)
@@ -376,6 +397,12 @@ class LearningFragment : Fragment(),fragmentBackPressed {
 
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        word = requireArguments()!!.getSerializable("wordData") as CategoryWordResponse
+        Timber.e("word:${word.w_kor}")
     }
 
     companion object {
