@@ -83,11 +83,10 @@ class Arcore16Activity : AppCompatActivity() {
             return
         }
         setContentView(R.layout.acitivity_ux)
-
         arFragment = getSupportFragmentManager().findFragmentById(R.id.ux_fragment) as ArFragment
         val planeRenderer = arFragment!!.arSceneView.planeRenderer
-        if(planeRenderer.isVisible) {
-            ar_guide.setText(" 하얀 점을 클릭하여 ${word.w_kor}를 띄워보세요 ")
+        if(planeRenderer.isEnabled) {
+            ar_guide.setText(" 핸드폰을 바닥에 비추어 하얀 점이 나오면, 점을 클릭하여 ${word.w_kor}를 띄워보세요 ")
         }
         renderModel()
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane?, motionEvent: MotionEvent? ->
@@ -104,6 +103,7 @@ class Arcore16Activity : AppCompatActivity() {
             model.setParent(anchorNode)
             model.renderable = renderable
             model.select()
+            model.rotationController.isEnabled = false
             //if model is tapped
             model.setOnTapListener {_, _ ->
                 if(!model.isTransforming) {
