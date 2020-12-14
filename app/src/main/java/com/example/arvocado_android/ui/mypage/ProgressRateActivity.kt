@@ -89,7 +89,7 @@ class ProgressRateActivity : AppCompatActivity() {
                     Intent(ArVocaDoApplication.GlobalApp, LearningActivity::class.java).apply {
                         putExtra("c_idx",c_idx)
                         putExtra("c_name",c_name)
-                        putExtra("index",index-1)
+                        putExtra("index",index)
                         putExtra("mode","PROGRESS")
                     }.run {
                         startActivity(this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))

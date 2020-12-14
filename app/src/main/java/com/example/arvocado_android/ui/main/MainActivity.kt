@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
         tvGuestMode.setOnDebounceClickListener {
             authManager.token = "0"
             authManager.autoLogin = false
-           startActivity(CategoryActivity::class, true)
+           startActivity(CategoryActivity::class, false)
         }
 
     }
