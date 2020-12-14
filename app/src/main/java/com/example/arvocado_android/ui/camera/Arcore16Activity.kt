@@ -33,6 +33,7 @@ import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.acitivity_ux.*
+import kotlinx.android.synthetic.main.element_card_view.*
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
@@ -44,7 +45,6 @@ class Arcore16Activity : AppCompatActivity() {
     private var arFragment: ArFragment? = null
     private var renderable: Renderable? = null
     private lateinit var word: CategoryWordResponse
-    private var arcore16Activity : Arcore16Activity? = Arcore16Activity()
 
     private class AnimationInstance internal constructor(
         var animator: com.google.android.filament.gltfio.Animator,
@@ -106,18 +106,16 @@ class Arcore16Activity : AppCompatActivity() {
             anchorNode.setParent(arFragment!!.arSceneView.scene)
 
             // Create the transformable model and add it to the anchor.
-            val model =
-                TransformableNode(arFragment!!.transformationSystem)
+            val model = TransformableNode(arFragment!!.transformationSystem)
             model.setParent(anchorNode)
             model.renderable = renderable
             model.select()
             //if model is tapped
             model.setOnTapListener {_, _ ->
                 if(!model.isTransforming) {
-                    Toast.makeText(this, word!!.w_AR+" is Tapped", Toast.LENGTH_SHORT).show()
                     //몇 초 동안 보여지게 하는 거 ?
                     ar_word.visibility = View.VISIBLE
-                    ar_word.setText(word.w_AR)
+                    ar_word.setText(word.w_eng)
                     val path: Uri = Uri.parse(word.audio_eng)
                     val r3: Ringtone = RingtoneManager.getRingtone(baseContext, path)
                     r3.play()
@@ -140,28 +138,6 @@ class Arcore16Activity : AppCompatActivity() {
                     renderable!!.getMaterial(i)
                 material.setFloat4("baseColorFactor", color)
             }
-            //titleNode: AR object 라벨
-            val titleNode = Node()
-            titleNode.setParent(model)
-            titleNode.isEnabled = false
-            titleNode.localPosition = Vector3(0.0f, 1.0f, 0.0f)
-            ViewRenderable.builder()
-                .setView(this, R.layout.tiger_card_view)
-                .build()
-                .thenAccept(
-                    Consumer<ViewRenderable> { renderable: ViewRenderable? ->
-                        titleNode.renderable = renderable
-                        titleNode.isEnabled = true
-                    }
-                )
-                .exceptionally(
-                    Function<Throwable, Void> { throwable: Throwable? ->
-                        throw AssertionError(
-                            "Could not load card view.",
-                            throwable
-                        )
-                    }
-                )
         }
         arFragment!!
             .getArSceneView()
@@ -196,7 +172,7 @@ class Arcore16Activity : AppCompatActivity() {
             .setSource(
                 this,
                 Uri.parse(
-                    "https://yeonghyeon.s3.ap-northeast-2.amazonaws.com/apple.glb"
+                    word.w_AR
                 )
             )
             .setIsFilamentGltf(true)
