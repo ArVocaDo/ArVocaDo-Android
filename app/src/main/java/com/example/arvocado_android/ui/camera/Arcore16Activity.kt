@@ -8,6 +8,7 @@ import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.util.ArraySet
 import android.util.Log
 import android.view.Gravity
@@ -26,13 +27,12 @@ import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.math.Vector3
-import com.google.ar.sceneform.rendering.Color
-import com.google.ar.sceneform.rendering.ModelRenderable
-import com.google.ar.sceneform.rendering.Renderable
-import com.google.ar.sceneform.rendering.ViewRenderable
+import com.google.ar.sceneform.rendering.*
 import com.google.ar.sceneform.ux.ArFragment
+import com.google.ar.sceneform.ux.PlaneDiscoveryController
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.acitivity_ux.*
+import kotlinx.android.synthetic.main.element_card_view.*
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
@@ -44,7 +44,6 @@ class Arcore16Activity : AppCompatActivity() {
     private var arFragment: ArFragment? = null
     private var renderable: Renderable? = null
     private lateinit var word: CategoryWordResponse
-    private var arcore16Activity : Arcore16Activity? = Arcore16Activity()
 
     private class AnimationInstance internal constructor(
         var animator: com.google.android.filament.gltfio.Animator,
@@ -79,48 +78,43 @@ class Arcore16Activity : AppCompatActivity() {
     // FutureReturnValueIgnored is not valid
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /**
-         * 데이터
-         *
-         */
-        word= intent!!.getSerializableExtra("wordData") as CategoryWordResponse
-        Timber.e("wordArcore :: ${word.w_img}")
-
+        init()
         if (!checkIsSupportedDeviceOrFinish(this)) {
             return
         }
         setContentView(R.layout.acitivity_ux)
-
         arFragment = getSupportFragmentManager().findFragmentById(R.id.ux_fragment) as ArFragment
+        val planeRenderer = arFragment!!.arSceneView.planeRenderer
+        if(planeRenderer.isEnabled) {
+            ar_guide.setText(" 핸드폰을 바닥에 비추어 하얀 점이 나오면, 점을 클릭하여 ${word.w_kor}를 띄워보세요 ")
+        }
         renderModel()
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane?, motionEvent: MotionEvent? ->
             if (renderable == null) {
                 return@setOnTapArPlaneListener
             }
-            else {
-                ar_guide.visibility = View.INVISIBLE
-            }
             // Create the Anchor.
             val anchor = hitResult.createAnchor()
             val anchorNode = AnchorNode(anchor)
             anchorNode.setParent(arFragment!!.arSceneView.scene)
-
+            ar_guide.visibility = View.INVISIBLE
             // Create the transformable model and add it to the anchor.
-            val model =
-                TransformableNode(arFragment!!.transformationSystem)
+            val model = TransformableNode(arFragment!!.transformationSystem)
             model.setParent(anchorNode)
             model.renderable = renderable
             model.select()
+            model.rotationController.isEnabled = false
             //if model is tapped
             model.setOnTapListener {_, _ ->
                 if(!model.isTransforming) {
-                    Toast.makeText(this, word!!.w_AR+" is Tapped", Toast.LENGTH_SHORT).show()
-                    //몇 초 동안 보여지게 하는 거 ?
                     ar_word.visibility = View.VISIBLE
-                    ar_word.setText(word.w_AR)
+                    ar_word.setText(" " + word.w_eng + " ")
                     val path: Uri = Uri.parse(word.audio_eng)
                     val r3: Ringtone = RingtoneManager.getRingtone(baseContext, path)
                     r3.play()
+                    Handler().postDelayed({
+                        ar_word.visibility = View.INVISIBLE
+                    }, 2000 )
                 }
             }
             val filamentAsset = model.renderableInstance!!.filamentAsset
@@ -140,28 +134,6 @@ class Arcore16Activity : AppCompatActivity() {
                     renderable!!.getMaterial(i)
                 material.setFloat4("baseColorFactor", color)
             }
-            //titleNode: AR object 라벨
-            val titleNode = Node()
-            titleNode.setParent(model)
-            titleNode.isEnabled = false
-            titleNode.localPosition = Vector3(0.0f, 1.0f, 0.0f)
-            ViewRenderable.builder()
-                .setView(this, R.layout.tiger_card_view)
-                .build()
-                .thenAccept(
-                    Consumer<ViewRenderable> { renderable: ViewRenderable? ->
-                        titleNode.renderable = renderable
-                        titleNode.isEnabled = true
-                    }
-                )
-                .exceptionally(
-                    Function<Throwable, Void> { throwable: Throwable? ->
-                        throw AssertionError(
-                            "Could not load card view.",
-                            throwable
-                        )
-                    }
-                )
         }
         arFragment!!
             .getArSceneView()
@@ -183,10 +155,6 @@ class Arcore16Activity : AppCompatActivity() {
         }
     }
     private fun init() {
-        /**
-         * 데이터
-         *
-         */
         word= intent?.getSerializableExtra("wordData") as CategoryWordResponse
         Timber.e("wordArcore :: ${word.w_img}")
     }
@@ -196,7 +164,7 @@ class Arcore16Activity : AppCompatActivity() {
             .setSource(
                 this,
                 Uri.parse(
-                    "https://yeonghyeon.s3.ap-northeast-2.amazonaws.com/apple.glb"
+                    word.w_AR
                 )
             )
             .setIsFilamentGltf(true)
