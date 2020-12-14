@@ -17,11 +17,21 @@
         android:textSize="20sp"
         android:textColor="@color/colorBrown"/>
 
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="@drawable/img_progressbar_border"
+        app:layout_constraintTop_toTopOf="@id/pbRvProgress"
+        app:layout_constraintBottom_toBottomOf="@id/pbRvProgress"
+        app:layout_constraintLeft_toLeftOf="@id/pbRvProgress"
+        app:layout_constraintRight_toRightOf="@id/pbRvProgress"/>
+
     <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
         android:id="@+id/pbRvProgress"
         android:layout_width="0dp"
         android:layout_height="30dp"
         android:layout_marginLeft="20dp"
+        android:padding="2dp"
         app:rcBackgroundColor="@color/colorBoldYellow"
         app:rcBackgroundPadding="4dp"
         app:rcAnimationEnable="true"

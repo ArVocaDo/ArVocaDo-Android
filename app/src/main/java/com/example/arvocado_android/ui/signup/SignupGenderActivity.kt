@@ -10,10 +10,8 @@ import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.data.request.SignUpRequest
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
-import com.example.arvocado_android.ui.category.CategoryActivity
 import com.example.arvocado_android.util.initWarningDialog
 import com.example.arvocado_android.util.safeEnqueue
-import com.example.arvocado_android.util.startActivity
 import kotlinx.android.synthetic.main.activity_signup_gender.*
 import org.koin.android.ext.android.inject
 import timber.log.Timber
@@ -79,12 +77,12 @@ class SignupGenderActivity : AppCompatActivity() {
         networkManager.requestSignUp(data).safeEnqueue(
             onSuccess = {
                 if(it.success) {
-                    authManager.apply {
-                        val token = it.data.token
-                        this.token = token
-                        autoLogin = true
+                    Intent(ArVocaDoApplication.GlobalApp,SignupFinishActivity::class.java).apply {
+                        putExtra("token",it.data.token)
+                    }.run {
+                        startActivity(this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                        finish()
                     }
-                  startActivity(CategoryActivity::class,true)
                 }
             },
             onFailure = {

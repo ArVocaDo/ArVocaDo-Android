@@ -1,4 +1,4 @@
-package com.example.arvocado_android.ui.camera
+package com.example.arvocado_android.ui.learning
 
 import android.content.Context
 import android.graphics.Color
@@ -29,7 +29,7 @@ import kotlin.math.roundToInt
 
 
 class CompleteFragment : Fragment(),fragmentBackPressed {
-    private var cameraActivity : CameraActivity? = null
+    private var cameraActivity : LearningActivity? = null
     private lateinit var word : CategoryWordResponse
     private val networkManager : NetworkManager by inject()
     private val authManager : AuthManager by inject()
@@ -42,7 +42,7 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
     }
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        cameraActivity = activity as CameraActivity?
+        cameraActivity = activity as LearningActivity?
     }
 
     override fun onDetach() {
@@ -54,8 +54,7 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
         super.onViewCreated(view, savedInstanceState)
         word = requireArguments()!!.getSerializable("wordData") as CategoryWordResponse
         var total = requireArguments()!!.getInt("totalWord")
-
-        var p =  (((word.w_idx / total.toDouble()) * 100).toDouble())
+        var p =  (((word.index+1) / total.toDouble()) * 100)
         tvProgressPercent.text = p.roundToInt().toString()+ "%"
         pbComplete.setProgress(p.roundToInt())
         pbComplete.max = 100f
@@ -65,11 +64,9 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
                 networkManager.requestCategoryProgress(authManager.token, CategoryProgressResponse(word.c_idx, word.index)).safeEnqueue(
                     onSuccess = {
                         if(it.success) {
-                            cameraActivity!!.finishWordFragment(word.w_idx)
+                            cameraActivity!!.finishWordFragment(word.index)
                             if(authManager.soundCheck) {
-                                val path: Uri = Uri.parse("android.resource://"+ mp3packageName!!+"/"+R.raw.button_sound)
-                                val r3: Ringtone = RingtoneManager.getRingtone(GlobalApp.applicationContext, path)
-                                r3.play()
+                                startSound()
                             }
 
                         } else {
@@ -93,9 +90,7 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
         btnBackDown.setOnDebounceClickListener {
             cameraActivity!!.backFragment(word.index)
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+ GlobalApp!!.packageName+"/"+R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
-                r3.play()
+                startSound()
             }
         }
 
@@ -106,28 +101,22 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         view.btnCancel.setOnClickListener {
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+GlobalApp!!.packageName+"/"+R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
-                r3.play()
+                startSound()
             }
             dialog.cancel()
         }
         view.btnLogin.setOnClickListener {
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+GlobalApp!!.packageName+"/"+R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
-                r3.play()
+                startSound()
             }
             startActivity(MainActivity::class, true)
             dialog.cancel()
         }
         view.btnKeepGoing.setOnClickListener {
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+requireActivity()!!.packageName+"/"+R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
-                r3.play()
+                startSound()
             }
-            cameraActivity!!.finishWordFragment(word.w_idx)
+            cameraActivity!!.finishWordFragment(word.index)
             dialog.cancel()
         }
 
@@ -137,9 +126,16 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
             show()
         }
     }
+    private fun startSound() {
+        val path: Uri = Uri.parse("android.resource://"+ GlobalApp!!.packageName !!+"/"+R.raw.button_sound)
+        val r3: Ringtone = RingtoneManager.getRingtone(GlobalApp.applicationContext, path)
+        r3.play()
+    }
     override fun onBackPressed(): Boolean {
+        startSound()
         return true
     }
+
 
 
 }

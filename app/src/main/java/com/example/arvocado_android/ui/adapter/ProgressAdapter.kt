@@ -63,7 +63,7 @@ class ProgressAdapter(context : Context) : RecyclerView.Adapter<ProgressAdapter.
             }
             var p = 0.0
             if(item.index!=0 && item.c_count!=0) {
-                p = (((item.index.toDouble() / item.c_count.toDouble()) * 100).toDouble())
+                p = (((item.index) / item.c_count.toDouble()) * 100)
             }
             percent.text = p.roundToInt().toString()+ "%"
             progress.setProgress(p.roundToInt())

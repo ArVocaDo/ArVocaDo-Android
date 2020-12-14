@@ -1,4 +1,4 @@
-package com.example.arvocado_android.ui.camera
+package com.example.arvocado_android.ui.learning
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -45,7 +45,7 @@ import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
 class LearningFragment : Fragment(),fragmentBackPressed {
-    private var cameraActivity: CameraActivity? = null
+    private var cameraActivity: LearningActivity? = null
     private lateinit var word: CategoryWordResponse
     private val authManager: AuthManager by inject()
     private val networkManager: NetworkManager by inject()
@@ -54,6 +54,10 @@ class LearningFragment : Fragment(),fragmentBackPressed {
     private var checkLearn: Boolean = false
     private lateinit var builder: SpeechRecognizerClient.Builder
     private lateinit var client: SpeechRecognizerClient
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -74,7 +78,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        cameraActivity = activity as CameraActivity?
+        cameraActivity = activity as LearningActivity?
     }
 
     override fun onDetach() {
@@ -84,8 +88,8 @@ class LearningFragment : Fragment(),fragmentBackPressed {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         word = requireArguments()!!.getSerializable("wordData") as CategoryWordResponse
+        Timber.e("word:${word.w_kor}")
         Timber.e("word:::${word.w_idx} , ${word.w_kor}")
         val st = word.w_kor+"\n"+word.w_eng
         tvWord.text = st
@@ -101,14 +105,14 @@ class LearningFragment : Fragment(),fragmentBackPressed {
 
         btnBackDown.setOnDebounceClickListener {
             if (authManager.soundCheck) {
-                val path: Uri =
-                    Uri.parse("android.resource://" + cameraActivity!!.packageName + "/" + R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
-                r3.play()
+                startSound()
             }
             cameraActivity!!.backFragment(word.index)
         }
         ivMicStatus.setOnDebounceClickListener {
+            if (authManager.soundCheck) {
+                startSound()
+            }
             if (checkClick) {
                 Glide.with(ivMicStatus).load(word.w_img).into(ivMicStatus)
 
@@ -127,7 +131,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
             }
         }
         imgComplete.setOnDebounceClickListener {
-            cameraActivity!!.endWordFragment(word.w_idx)
+            cameraActivity!!.endWordFragment(word.index)
         }
         initScrap()
 
@@ -314,13 +318,20 @@ class LearningFragment : Fragment(),fragmentBackPressed {
                  * 정답시 나오는화면
                  */
                 GlideApp.with(imgWord).load(word.w_img).into(imgWord)
+                tvExplain.visibility = View.VISIBLE
                 imgWord.setOnClickListener {
-
-                    Intent(ArVocaDoApplication.GlobalApp,Arcore16Activity::class.java).apply {
-                        putExtra("wordData",word)
+                    if (authManager.soundCheck) {
+                        startSound()
+                    }
+                    Intent(ArVocaDoApplication.GlobalApp, ArcoreActivity::class.java).apply {
+                        putExtra("w_AR",word.w_AR)
+                        putExtra("w_kor",word.w_kor)
+                        putExtra("w_eng",word.w_eng)
+                        putExtra("audio_eng",word.audio_eng)
                     }.run {
                         startActivity(this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
                     }
+
 
                 }
             } else {
@@ -363,10 +374,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
                     onSuccess = {
                         if (it.success) {
                             if (authManager.soundCheck) {
-                                val path: Uri =
-                                    Uri.parse("android.resource://" + cameraActivity!!.packageName + "/" + R.raw.button_sound)
-                                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
-                                r3.play()
+                                startSound()
                             }
                             word.isScraped = !word.isScraped
                             if (word.isScraped) {
@@ -398,21 +406,21 @@ class LearningFragment : Fragment(),fragmentBackPressed {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        word = requireArguments()!!.getSerializable("wordData") as CategoryWordResponse
-        Timber.e("word:${word.w_kor}")
+    override fun onBackPressed(): Boolean {
+        startSound()
+        return true
     }
-
+    private fun startSound() {
+        val path: Uri =
+            Uri.parse("android.resource://" + ArVocaDoApplication!!.GlobalApp.packageName + "/" + R.raw.button_sound)
+        val r3: Ringtone = RingtoneManager.getRingtone(ArVocaDoApplication.GlobalApp.applicationContext, path)
+        r3.play()
+    }
     companion object {
         private val RECORD_REQUEST_CODE = 1001
         private val STORAGE_REQUEST_CODE = 1002
     }
 
-    override fun onBackPressed(): Boolean {
 
-        return true
-    }
 
 }

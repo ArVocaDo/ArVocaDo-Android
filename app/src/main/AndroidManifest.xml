@@ -73,7 +73,7 @@
 
         </activity>
         <activity
-            android:name=".ui.camera.CameraActivity"
+            android:name=".ui.learning.LearningActivity"
             android:screenOrientation="landscape" >
             <meta-data android:name="com.google.ar.core" android:value="required"/>
         </activity>
@@ -85,7 +85,7 @@
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
 
-        <activity android:name=".ui.camera.Arcore16Activity"
+        <activity android:name=".ui.learning.ArcoreActivity"
             android:screenOrientation="landscape">
         </activity>
     </application>

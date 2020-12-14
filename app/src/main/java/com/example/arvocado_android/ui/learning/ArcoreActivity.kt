@@ -1,4 +1,4 @@
-package com.example.arvocado_android.ui.camera
+package com.example.arvocado_android.ui.learning
 
 import android.app.Activity
 import android.app.ActivityManager
@@ -16,34 +16,36 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.arvocado_android.ArVocaDoApplication
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
-import com.example.arvocado_android.data.response.CategoryWordResponse
-import com.example.arvocado_android.util.setVisible
-import com.google.android.filament.gltfio.Animator
+import com.example.arvocado_android.network.AuthManager
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
-import com.google.ar.sceneform.Node
-import com.google.ar.sceneform.math.Vector3
-import com.google.ar.sceneform.rendering.*
+import com.google.ar.sceneform.rendering.Color
+import com.google.ar.sceneform.rendering.ModelRenderable
+import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.ux.ArFragment
-import com.google.ar.sceneform.ux.PlaneDiscoveryController
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.acitivity_ux.*
-import kotlinx.android.synthetic.main.element_card_view.*
-import timber.log.Timber
+import org.koin.android.ext.android.inject
 import java.lang.ref.WeakReference
 import java.util.*
 import java.util.concurrent.TimeUnit
 import java.util.function.Consumer
 import java.util.function.Function
 
-class Arcore16Activity : AppCompatActivity() {
+class ArcoreActivity : AppCompatActivity() {
     private var arFragment: ArFragment? = null
+    private val authManager : AuthManager by inject()
     private var renderable: Renderable? = null
-    private lateinit var word: CategoryWordResponse
+
+    private var w_AR : String =""
+    private var w_eng : String = ""
+    private var audio_eng : String = ""
+    private var w_kor : String = ""
 
     private class AnimationInstance internal constructor(
         var animator: com.google.android.filament.gltfio.Animator,
@@ -86,7 +88,7 @@ class Arcore16Activity : AppCompatActivity() {
         arFragment = getSupportFragmentManager().findFragmentById(R.id.ux_fragment) as ArFragment
         val planeRenderer = arFragment!!.arSceneView.planeRenderer
         if(planeRenderer.isEnabled) {
-            ar_guide.setText(" 핸드폰을 바닥에 비추어 하얀 점이 나오면, 점을 클릭하여 ${word.w_kor}를 띄워보세요 ")
+            ar_guide.setText(" 핸드폰을 바닥에 비추어 하얀 점이 나오면, 점을 클릭하여 ${w_kor}를 띄워보세요 ")
         }
         renderModel()
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane?, motionEvent: MotionEvent? ->
@@ -108,8 +110,8 @@ class Arcore16Activity : AppCompatActivity() {
             model.setOnTapListener {_, _ ->
                 if(!model.isTransforming) {
                     ar_word.visibility = View.VISIBLE
-                    ar_word.setText(" " + word.w_eng + " ")
-                    val path: Uri = Uri.parse(word.audio_eng)
+                    ar_word.setText(" " + w_eng + " ")
+                    val path: Uri = Uri.parse(audio_eng)
                     val r3: Ringtone = RingtoneManager.getRingtone(baseContext, path)
                     r3.play()
                     Handler().postDelayed({
@@ -151,12 +153,21 @@ class Arcore16Activity : AppCompatActivity() {
                 }
             }
         ar_end.setOnDebounceClickListener {
+            if(authManager.soundCheck) {
+                val path: Uri =
+                    Uri.parse("android.resource://" + ArVocaDoApplication!!.GlobalApp.packageName + "/" + R.raw.button_sound)
+                val r3: Ringtone = RingtoneManager.getRingtone(ArVocaDoApplication.GlobalApp.applicationContext, path)
+                r3.play()
+            }
             finish()
         }
     }
     private fun init() {
-        word= intent?.getSerializableExtra("wordData") as CategoryWordResponse
-        Timber.e("wordArcore :: ${word.w_img}")
+        w_AR = intent!!.getStringExtra("w_AR")!!
+        w_eng = intent!!.getStringExtra("w_eng")!!
+        audio_eng = intent!!.getStringExtra("audio_eng")!!
+        w_kor= intent!!.getStringExtra("w_kor")!!
+
     }
     private fun renderModel() {
         val weakActivity = WeakReference(this)
@@ -164,7 +175,7 @@ class Arcore16Activity : AppCompatActivity() {
             .setSource(
                 this,
                 Uri.parse(
-                    word.w_AR
+                    w_AR
                 )
             )
             .setIsFilamentGltf(true)
@@ -191,7 +202,7 @@ class Arcore16Activity : AppCompatActivity() {
             )
     }
     companion object {
-        private val TAG = Arcore16Activity::class.java.simpleName
+        private val TAG = ArcoreActivity::class.java.simpleName
         private const val MIN_OPENGL_VERSION = 3.0
 
         fun checkIsSupportedDeviceOrFinish(activity: Activity): Boolean {
