@@ -19,7 +19,7 @@ import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.CategoryAdapter
-import com.example.arvocado_android.ui.camera.CameraActivity
+import com.example.arvocado_android.ui.learning.LearningActivity
 import com.example.arvocado_android.ui.mypage.MyPageActivity
 import com.example.arvocado_android.util.*
 import kotlinx.android.synthetic.main.activity_category.*
@@ -40,6 +40,11 @@ class CategoryActivity : AppCompatActivity() {
         initCategory()
         initSound()
         imgCategoryUser.setOnDebounceClickListener {
+            if(authManager.soundCheck) {
+                val path: Uri = Uri.parse("android.resource://"+packageName+"/"+R.raw.button_sound)
+                val r3: Ringtone = RingtoneManager.getRingtone(applicationContext, path)
+                r3.play()
+            }
             if(authManager.token.equals("0")) {
                 initWarningDialog(this, str="로그인 후 이용 가능한 서비스 입니다.",str2 ="로그인을 해주세요!")
             } else {
@@ -124,7 +129,7 @@ class CategoryActivity : AppCompatActivity() {
                     val r3: Ringtone = RingtoneManager.getRingtone(applicationContext, path)
                     r3.play()
                 }
-                Intent(GlobalApp,CameraActivity::class.java).apply {
+                Intent(GlobalApp,LearningActivity::class.java).apply {
                     putExtra("c_name",data.c_name)
                     putExtra("c_idx",data.c_idx)
                     putExtra("mode","CATEGORY")

@@ -1,4 +1,4 @@
-package com.example.arvocado_android.ui.camera
+package com.example.arvocado_android.ui.learning
 
 import android.content.Context
 import android.media.Ringtone
@@ -13,15 +13,13 @@ import com.example.arvocado_android.ArVocaDoApplication
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.network.AuthManager
-import com.example.arvocado_android.network.NetworkManager
 import kotlinx.android.synthetic.main.fragment_start.*
 import org.koin.android.ext.android.inject
 
 class StartFragment : Fragment() ,fragmentBackPressed{
-    private var cameraActivity : CameraActivity? = null
+    private var cameraActivity : LearningActivity? = null
     private lateinit var c_name : String
     private val authManager : AuthManager by inject()
-    private val networkManager : NetworkManager by inject()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,7 +29,7 @@ class StartFragment : Fragment() ,fragmentBackPressed{
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        cameraActivity = activity as CameraActivity?
+        cameraActivity = activity as LearningActivity?
     }
 
     override fun onDetach() {
@@ -46,17 +44,13 @@ class StartFragment : Fragment() ,fragmentBackPressed{
 
         btnLearningStart.setOnDebounceClickListener {
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(ArVocaDoApplication.GlobalApp.applicationContext, path)
-                r3.play()
+                startSound()
             }
             cameraActivity!!.finishWordFragment(-1)
         }
         btnBackDown.setOnDebounceClickListener {
             if(authManager.soundCheck) {
-                val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(ArVocaDoApplication.GlobalApp.applicationContext, path)
-                r3.play()
+                startSound()
             }
             cameraActivity!!.backFragment(0)
         }
@@ -64,6 +58,13 @@ class StartFragment : Fragment() ,fragmentBackPressed{
 
     }
     override fun onBackPressed() : Boolean {
+        startSound()
         return true
+    }
+    private fun startSound() {
+        val path: Uri =
+            Uri.parse("android.resource://" + ArVocaDoApplication!!.GlobalApp.packageName + "/" + R.raw.button_sound)
+        val r3: Ringtone = RingtoneManager.getRingtone(ArVocaDoApplication.GlobalApp.applicationContext, path)
+        r3.play()
     }
 }

@@ -1,6 +1,9 @@
 package com.example.arvocado_android.ui.mypage
 
 import android.content.Intent
+import android.media.Ringtone
+import android.media.RingtoneManager
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.ArVocaDoApplication
@@ -22,15 +25,27 @@ class MyPageActivity : AppCompatActivity() {
         setContentView(R.layout.activity_my_page)
 
         imgUserScrap.setOnDebounceClickListener {
+            if(authManager.soundCheck) {
+                startSound()
+            }
             startActivity(ScrapWordActivity::class, false)
         }
         imgUserCategory.setOnDebounceClickListener {
+            if(authManager.soundCheck) {
+                startSound()
+            }
             startActivity(ProgressRateActivity::class, false)
         }
         imgUserCancle.setOnDebounceClickListener {
+            if(authManager.soundCheck) {
+                startSound()
+            }
             startActivity(CategoryActivity::class, true)
         }
         imgUserLogout.setOnDebounceClickListener {
+            if(authManager.soundCheck) {
+                startSound()
+            }
             authManager.token="0"
             authManager.autoLogin = false
             Intent(ArVocaDoApplication.GlobalApp, MainActivity::class.java).apply {
@@ -40,5 +55,10 @@ class MyPageActivity : AppCompatActivity() {
                 overridePendingTransition(0,0)
             }
         }
+    }
+    private fun startSound() {
+        val path: Uri = Uri.parse("android.resource://"+packageName+"/"+R.raw.button_sound)
+        val r3: Ringtone = RingtoneManager.getRingtone(applicationContext, path)
+        r3.play()
     }
 }

@@ -2,8 +2,6 @@ package com.example.arvocado_android.ui.mypage
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.media.Ringtone
 import android.media.RingtoneManager
 import android.net.Uri
@@ -19,7 +17,7 @@ import com.example.arvocado_android.data.response.CategoryResponse
 import com.example.arvocado_android.network.AuthManager
 import com.example.arvocado_android.network.NetworkManager
 import com.example.arvocado_android.ui.adapter.ProgressAdapter
-import com.example.arvocado_android.ui.camera.CameraActivity
+import com.example.arvocado_android.ui.learning.LearningActivity
 import com.example.arvocado_android.util.initLoginWarning
 import com.example.arvocado_android.util.networkErrorToast
 import com.example.arvocado_android.util.safeEnqueue
@@ -41,6 +39,9 @@ class ProgressRateActivity : AppCompatActivity() {
         initProgressRecycler()
 
         imgProgressCancle.setOnDebounceClickListener {
+            if(authManager.soundCheck) {
+                startSound()
+            }
             finish()
         }
     }
@@ -82,11 +83,10 @@ class ProgressRateActivity : AppCompatActivity() {
                 c_idx = data.c_idx
                 c_name = data.c_name
                 index = data.index
-                startSound()
                 if(data.c_count == index) {
                     initWarningStartDlg()
                 } else {
-                    Intent(ArVocaDoApplication.GlobalApp, CameraActivity::class.java).apply {
+                    Intent(ArVocaDoApplication.GlobalApp, LearningActivity::class.java).apply {
                         putExtra("c_idx",c_idx)
                         putExtra("c_name",c_name)
                         putExtra("index",index-1)
@@ -101,14 +101,13 @@ class ProgressRateActivity : AppCompatActivity() {
         })
     }
     private fun initWarningStartDlg() {
-        val dialog = AlertDialog.Builder(applicationContext).create()
-        val view = LayoutInflater.from(applicationContext).inflate(R.layout.dialog_guest_warning, null)
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        val dialog = AlertDialog.Builder(this).create()
+        val view = LayoutInflater.from(ArVocaDoApplication.GlobalApp).inflate(R.layout.dialog_start_warning, null)
         view.btnKeepGoing.setOnDebounceClickListener {
             if(authManager.soundCheck) {
                 startSound()
             }
-            Intent(ArVocaDoApplication.GlobalApp, CameraActivity::class.java).apply {
+            Intent(ArVocaDoApplication.GlobalApp, LearningActivity::class.java).apply {
                 putExtra("c_idx",c_idx)
                 putExtra("c_name",c_name)
                 putExtra("index",0)

@@ -1,4 +1,4 @@
-package com.example.arvocado_android.ui.camera
+package com.example.arvocado_android.ui.learning
 
 import android.Manifest
 import android.content.Intent
@@ -29,13 +29,14 @@ import timber.log.Timber
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class CameraActivity : AppCompatActivity() {
+class LearningActivity : AppCompatActivity() {
     private var c_idx : Int = 0
     private lateinit var c_name : String
     private val networkManager : NetworkManager by inject()
     private val authManager : AuthManager by inject()
     private lateinit var cameraExecutor: ExecutorService
     private lateinit var wordList : List<CategoryWordResponse>
+    private var mode : String = ""
 
     val list = listOf<Fragment>(StartFragment(), LearningFragment(), CompleteFragment())
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,17 +44,12 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
         c_idx = intent.getIntExtra("c_idx", 0)
         c_name = intent.getStringExtra("c_name").toString()
-        val mode = intent.getStringExtra("mode").toString()
+        mode = intent.getStringExtra("mode").toString()
 
+        Timber.e("c_idx :: ${c_idx}")
 
         requestCategoryWord()
         initCamera()
-        if(mode =="CATEGORY") {
-            initSettingFragment()
-        } else {
-            val index = intent.getIntExtra("index",0)
-            finishWordFragment(index)
-        }
 
 
     }
@@ -68,13 +64,21 @@ class CameraActivity : AppCompatActivity() {
             .commit()
 
     }
+    private fun initStartProgress(index : Int) {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, LearningFragment().apply {
+                this.arguments = Bundle().apply {
+                    putSerializable("wordData", wordList[index])
+                }
+            })
+            .commit()
+    }
     fun finishWordFragment(index: Int) {
         when(index) {
             list.size-1 -> {
                 startActivity(CategoryActivity::class, true)
             }
             else -> {
-                requestCategoryWord()
                 supportFragmentManager.beginTransaction()
                     .replace(R.id.container, list[1].apply {
                         this.arguments = Bundle().apply {
@@ -86,7 +90,6 @@ class CameraActivity : AppCompatActivity() {
         }
     }
     fun endWordFragment(index: Int) {
-        requestCategoryWord()
         supportFragmentManager.beginTransaction()
             .replace(R.id.container, list[2].apply {
                 this.arguments = Bundle().apply {
@@ -187,6 +190,14 @@ class CameraActivity : AppCompatActivity() {
                 onSuccess = {
                     if (it.success) {
                         wordList = it.data
+                        Timber.e("progress 저장")
+                        if(mode == "CATEGORY") {
+                            initSettingFragment()
+                        } else {
+                            val index = intent.getIntExtra("index",0)
+                            initStartProgress(index)
+                        }
+
                     } else {
                         authManager.token = "0"
                         authManager.autoLogin = false
@@ -213,12 +224,12 @@ class CameraActivity : AppCompatActivity() {
                     toast("한번 더 누르면 단어 학습이 종료되고, 카테고리로 넘어가게 됩니다. 종료하시겠습니까?")
                     return
                 } else {
-                    Intent(ArVocaDoApplication.GlobalApp, CategoryActivity::class.java).apply {
-                    }.run {
-                        startActivity(this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
-                        finish()
-                    }
-                    overridePendingTransition(0,0)
+                        Intent(ArVocaDoApplication.GlobalApp, CategoryActivity::class.java).apply {
+                        }.run {
+                            startActivity(this.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP))
+                            finish()
+                        }
+                        overridePendingTransition(0, 0)
                 }
             }
         }
