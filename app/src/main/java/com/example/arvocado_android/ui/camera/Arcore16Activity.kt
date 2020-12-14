@@ -3,6 +3,8 @@ package com.example.arvocado_android.ui.camera
 import android.app.Activity
 import android.app.ActivityManager
 import android.content.Context
+import android.media.Ringtone
+import android.media.RingtoneManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -10,10 +12,14 @@ import android.util.ArraySet
 import android.util.Log
 import android.view.Gravity
 import android.view.MotionEvent
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.arvocado_android.R
+import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.data.response.CategoryWordResponse
+import com.example.arvocado_android.util.setVisible
+import com.google.android.filament.gltfio.Animator
 import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
@@ -26,6 +32,7 @@ import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.TransformableNode
+import kotlinx.android.synthetic.main.acitivity_ux.*
 import timber.log.Timber
 import java.lang.ref.WeakReference
 import java.util.*
@@ -37,6 +44,7 @@ class Arcore16Activity : AppCompatActivity() {
     private var arFragment: ArFragment? = null
     private var renderable: Renderable? = null
     private lateinit var word: CategoryWordResponse
+    private var arcore16Activity : Arcore16Activity? = Arcore16Activity()
 
     private class AnimationInstance internal constructor(
         var animator: com.google.android.filament.gltfio.Animator,
@@ -84,46 +92,17 @@ class Arcore16Activity : AppCompatActivity() {
         setContentView(R.layout.acitivity_ux)
 
         arFragment = getSupportFragmentManager().findFragmentById(R.id.ux_fragment) as ArFragment
-        val weakActivity =
-            WeakReference(this)
-        ModelRenderable.builder()
-            .setSource(
-                this,
-                Uri.parse(
-                    "https://yeonghyeon.s3.ap-northeast-2.amazonaws.com/apple.glb"
-                )
-            )
-            .setIsFilamentGltf(true)
-            .build()
-            .thenAccept(
-                Consumer<ModelRenderable> { modelRenderable: ModelRenderable? ->
-                    val activity = weakActivity.get()
-                    if (activity != null) {
-                        activity.renderable = modelRenderable
-                    }
-                }
-            )
-            .exceptionally(
-                Function<Throwable, Void?> { throwable: Throwable? ->
-                    val toast: Toast = Toast.makeText(
-                        this,
-                        "Ar object를 로딩하는데 실패했습니다.",
-                        Toast.LENGTH_SHORT
-                    )
-                    toast.setGravity(Gravity.CENTER, 0, 0)
-                    toast.show()
-                    null
-                }
-            )
+        renderModel()
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane?, motionEvent: MotionEvent? ->
             if (renderable == null) {
                 return@setOnTapArPlaneListener
             }
-
+            else {
+                ar_guide.visibility = View.INVISIBLE
+            }
             // Create the Anchor.
             val anchor = hitResult.createAnchor()
-            val anchorNode =
-                AnchorNode(anchor)
+            val anchorNode = AnchorNode(anchor)
             anchorNode.setParent(arFragment!!.arSceneView.scene)
 
             // Create the transformable model and add it to the anchor.
@@ -136,7 +115,12 @@ class Arcore16Activity : AppCompatActivity() {
             model.setOnTapListener {_, _ ->
                 if(!model.isTransforming) {
                     Toast.makeText(this, word!!.w_AR+" is Tapped", Toast.LENGTH_SHORT).show()
-
+                    //몇 초 동안 보여지게 하는 거 ?
+                    ar_word.visibility = View.VISIBLE
+                    ar_word.setText(word.w_AR)
+                    val path: Uri = Uri.parse(word.audio_eng)
+                    val r3: Ringtone = RingtoneManager.getRingtone(baseContext, path)
+                    r3.play()
                 }
             }
             val filamentAsset = model.renderableInstance!!.filamentAsset
@@ -194,23 +178,54 @@ class Arcore16Activity : AppCompatActivity() {
                     animator.animator.updateBoneMatrices()
                 }
             }
+        ar_end.setOnDebounceClickListener {
+            finish()
+        }
     }
-
-
+    private fun init() {
+        /**
+         * 데이터
+         *
+         */
+        word= intent?.getSerializableExtra("wordData") as CategoryWordResponse
+        Timber.e("wordArcore :: ${word.w_img}")
+    }
+    private fun renderModel() {
+        val weakActivity = WeakReference(this)
+        ModelRenderable.builder()
+            .setSource(
+                this,
+                Uri.parse(
+                    "https://yeonghyeon.s3.ap-northeast-2.amazonaws.com/apple.glb"
+                )
+            )
+            .setIsFilamentGltf(true)
+            .build()
+            .thenAccept(
+                Consumer<ModelRenderable> { modelRenderable: ModelRenderable? ->
+                    val activity = weakActivity.get()
+                    if (activity != null) {
+                        activity.renderable = modelRenderable
+                    }
+                }
+            )
+            .exceptionally(
+                Function<Throwable, Void?> { throwable: Throwable? ->
+                    val toast: Toast = Toast.makeText(
+                        this,
+                        "Ar object를 로딩하는데 실패했습니다.",
+                        Toast.LENGTH_SHORT
+                    )
+                    toast.setGravity(Gravity.CENTER, 0, 0)
+                    toast.show()
+                    null
+                }
+            )
+    }
     companion object {
         private val TAG = Arcore16Activity::class.java.simpleName
         private const val MIN_OPENGL_VERSION = 3.0
 
-        /**
-         * Returns false and displays an error message if Sceneform can not run, true if Sceneform can run
-         * on this device.
-         *
-         *
-         * Sceneform requires Android N on the device as well as OpenGL 3.0 capabilities.
-         *
-         *
-         * Finishes the activity if Sceneform can not run
-         */
         fun checkIsSupportedDeviceOrFinish(activity: Activity): Boolean {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 Log.e(
