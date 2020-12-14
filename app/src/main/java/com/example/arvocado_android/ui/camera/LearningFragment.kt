@@ -54,6 +54,10 @@ class LearningFragment : Fragment(),fragmentBackPressed {
     private var checkLearn: Boolean = false
     private lateinit var builder: SpeechRecognizerClient.Builder
     private lateinit var client: SpeechRecognizerClient
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -84,8 +88,8 @@ class LearningFragment : Fragment(),fragmentBackPressed {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         word = requireArguments()!!.getSerializable("wordData") as CategoryWordResponse
+        Timber.e("word:${word.w_kor}")
         Timber.e("word:::${word.w_idx} , ${word.w_kor}")
         val st = word.w_kor+"\n"+word.w_eng
         tvWord.text = st
@@ -103,7 +107,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
             if (authManager.soundCheck) {
                 val path: Uri =
                     Uri.parse("android.resource://" + cameraActivity!!.packageName + "/" + R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
+                val r3: Ringtone = RingtoneManager.getRingtone(ArVocaDoApplication.GlobalApp.applicationContext, path)
                 r3.play()
             }
             cameraActivity!!.backFragment(word.index)
@@ -127,7 +131,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
             }
         }
         imgComplete.setOnDebounceClickListener {
-            cameraActivity!!.endWordFragment(word.w_idx)
+            cameraActivity!!.endWordFragment(word.index)
         }
         initScrap()
 
@@ -316,7 +320,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
                 GlideApp.with(imgWord).load(word.w_img).into(imgWord)
                 imgWord.setOnClickListener {
 
-                    Intent(ArVocaDoApplication.GlobalApp,ArcoreActivity::class.java).apply {
+                    Intent(ArVocaDoApplication.GlobalApp,Arcore16Activity::class.java).apply {
                         putExtra("wordData",word)
                     }.run {
                         startActivity(this.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
@@ -398,13 +402,6 @@ class LearningFragment : Fragment(),fragmentBackPressed {
             }
         }
     }
-
-    override fun onResume() {
-        super.onResume()
-        word = requireArguments()!!.getSerializable("wordData") as CategoryWordResponse
-        Timber.e("word:${word.w_kor}")
-    }
-
     companion object {
         private val RECORD_REQUEST_CODE = 1001
         private val STORAGE_REQUEST_CODE = 1002

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.example.arvocado_android.ArVocaDoApplication
 import com.example.arvocado_android.R
 import com.example.arvocado_android.common.setOnDebounceClickListener
 import com.example.arvocado_android.network.AuthManager
@@ -46,23 +47,23 @@ class StartFragment : Fragment() ,fragmentBackPressed{
         btnLearningStart.setOnDebounceClickListener {
             if(authManager.soundCheck) {
                 val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
+                val r3: Ringtone = RingtoneManager.getRingtone(ArVocaDoApplication.GlobalApp.applicationContext, path)
                 r3.play()
             }
-            cameraActivity!!.finishWordFragment(0)
+            cameraActivity!!.finishWordFragment(-1)
         }
         btnBackDown.setOnDebounceClickListener {
             if(authManager.soundCheck) {
                 val path: Uri = Uri.parse("android.resource://"+cameraActivity!!.packageName+"/"+R.raw.button_sound)
-                val r3: Ringtone = RingtoneManager.getRingtone(context, path)
+                val r3: Ringtone = RingtoneManager.getRingtone(ArVocaDoApplication.GlobalApp.applicationContext, path)
                 r3.play()
             }
-            cameraActivity!!.backFragment(1)
+            cameraActivity!!.backFragment(0)
         }
 
 
     }
     override fun onBackPressed() : Boolean {
-        return false
+        return true
     }
 }

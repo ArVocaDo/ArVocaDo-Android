@@ -84,10 +84,6 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key"/>
-        <activity android:name=".ui.camera.ArcoreActivity"
-            android:screenOrientation="landscape">
-
-        </activity>
         <activity android:name=".ui.camera.Arcore16Activity"
             android:screenOrientation="landscape">
         </activity>

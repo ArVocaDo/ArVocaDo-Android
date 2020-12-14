@@ -54,8 +54,7 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
         super.onViewCreated(view, savedInstanceState)
         word = requireArguments()!!.getSerializable("wordData") as CategoryWordResponse
         var total = requireArguments()!!.getInt("totalWord")
-
-        var p =  (((word.w_idx / total.toDouble()) * 100).toDouble())
+        var p =  (((word.index+1) / total.toDouble()) * 100)
         tvProgressPercent.text = p.roundToInt().toString()+ "%"
         pbComplete.setProgress(p.roundToInt())
         pbComplete.max = 100f
@@ -65,9 +64,9 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
                 networkManager.requestCategoryProgress(authManager.token, CategoryProgressResponse(word.c_idx, word.index)).safeEnqueue(
                     onSuccess = {
                         if(it.success) {
-                            cameraActivity!!.finishWordFragment(word.w_idx)
+                            cameraActivity!!.finishWordFragment(word.index)
                             if(authManager.soundCheck) {
-                                val path: Uri = Uri.parse("android.resource://"+ mp3packageName!!+"/"+R.raw.button_sound)
+                                val path: Uri = Uri.parse("android.resource://"+ GlobalApp!!.packageName !!+"/"+R.raw.button_sound)
                                 val r3: Ringtone = RingtoneManager.getRingtone(GlobalApp.applicationContext, path)
                                 r3.play()
                             }
@@ -127,7 +126,7 @@ class CompleteFragment : Fragment(),fragmentBackPressed {
                 val r3: Ringtone = RingtoneManager.getRingtone(context, path)
                 r3.play()
             }
-            cameraActivity!!.finishWordFragment(word.w_idx)
+            cameraActivity!!.finishWordFragment(word.index)
             dialog.cancel()
         }
 
