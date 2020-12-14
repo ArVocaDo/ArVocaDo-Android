@@ -47,7 +47,7 @@ class Arcore16Activity : AppCompatActivity() {
     private lateinit var word: CategoryWordResponse
 
     private class AnimationInstance internal constructor(
-        var animator: Animator,
+        var animator: com.google.android.filament.gltfio.Animator,
         index: Int,
         var startTime: Long
     ) {
@@ -79,7 +79,13 @@ class Arcore16Activity : AppCompatActivity() {
     // FutureReturnValueIgnored is not valid
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        init()
+        /**
+         * 데이터
+         *
+         */
+        word= intent!!.getSerializableExtra("wordData") as CategoryWordResponse
+        Timber.e("wordArcore :: ${word.w_img}")
+
         if (!checkIsSupportedDeviceOrFinish(this)) {
             return
         }
@@ -192,7 +198,6 @@ class Arcore16Activity : AppCompatActivity() {
                 }
             )
     }
-
     companion object {
         private val TAG = Arcore16Activity::class.java.simpleName
         private const val MIN_OPENGL_VERSION = 3.0
