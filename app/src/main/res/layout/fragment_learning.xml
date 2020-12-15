@@ -26,7 +26,6 @@
         android:shadowRadius="10"
         android:shadowDx="10.0"
         android:shadowDy="10.0"
-        android:text="보이는 단어를 읽어볼까?"
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:fontFamily="@font/cookie_run_b"

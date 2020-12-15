@@ -102,6 +102,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
         Glide.with(ivMicStatus).load(R.drawable.ic_mic).into(ivMicStatus)
         checkClick= false
 
+        tvLearningMain.text = "보이는 단어를 마이크를 눌러 읽어볼까?"
 
         btnBackDown.setOnDebounceClickListener {
             if (authManager.soundCheck) {
@@ -110,9 +111,7 @@ class LearningFragment : Fragment(),fragmentBackPressed {
             cameraActivity!!.backFragment(word.index)
         }
         ivMicStatus.setOnDebounceClickListener {
-            if (authManager.soundCheck) {
-                startSound()
-            }
+
             if (checkClick) {
                 Glide.with(ivMicStatus).load(word.w_img).into(ivMicStatus)
 
@@ -297,6 +296,9 @@ class LearningFragment : Fragment(),fragmentBackPressed {
             Glide.with(ivMicStatus).load(R.drawable.btn_vui_bg).into(ivMicStatus)
             Glide.with(ivMicSound).load(R.drawable.sound).into(ivMicSound)
             ivMicSound.visibility = View.VISIBLE
+            if (authManager.soundCheck) {
+                startSound()
+            }
         }
     }
 
