@@ -74,8 +74,9 @@ class LearningActivity : AppCompatActivity() {
             .commit()
     }
     fun finishWordFragment(index: Int) {
+
         when(index) {
-            list.size-1 -> {
+            wordList.size-1 -> {
                 startActivity(CategoryActivity::class, true)
             }
             else -> {
