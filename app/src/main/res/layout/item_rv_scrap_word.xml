@@ -8,21 +8,22 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
-        android:paddingHorizontal="50dp"
+        android:paddingHorizontal="10dp"
         android:paddingBottom="24dp"
         android:background="@drawable/bg_scrap_word"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvRvWordTitle"
-        android:textSize="20sp"
+        android:textSize="15sp"
         android:text="RED"
         android:layout_marginTop="80dp"
         android:fontFamily="@font/cookie_run_b"
@@ -35,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tvRvWordKor"
-            android:textSize="20sp"
+            android:textSize="15sp"
             android:text="RED"
             android:fontFamily="@font/cookie_run_b"
             android:textColor="@color/colorBrown"
