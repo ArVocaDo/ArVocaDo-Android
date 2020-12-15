@@ -24,6 +24,7 @@ import com.google.ar.core.HitResult
 import com.google.ar.core.Plane
 import com.google.ar.sceneform.AnchorNode
 import com.google.ar.sceneform.FrameTime
+import com.google.ar.sceneform.math.Vector3
 import com.google.ar.sceneform.rendering.Color
 import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
@@ -86,14 +87,18 @@ class ArcoreActivity : AppCompatActivity() {
         }
         setContentView(R.layout.acitivity_ux)
         arFragment = getSupportFragmentManager().findFragmentById(R.id.ux_fragment) as ArFragment
-        val planeRenderer = arFragment!!.arSceneView.planeRenderer
-        if(planeRenderer.isEnabled) {
-            ar_guide.setText(" 핸드폰을 바닥에 비추어 하얀 점이 나오면, 점을 클릭하여 ${w_kor}를 띄워보세요 ")
-        }
+//        val planeRenderer = arFragment!!.arSceneView.planeRenderer
+//        if(planeRenderer.isEnabled) {
+//
+//        }
+        ar_guide.setText(" 핸드폰을 바닥에 비추어 하얀 점이 나오면, 점을 클릭하여 ${w_kor}를 띄워보세요! ")
         renderModel()
         arFragment!!.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane?, motionEvent: MotionEvent? ->
             if (renderable == null) {
                 return@setOnTapArPlaneListener
+            }
+            else {
+                ar_guide.setText(" ${w_kor} 모형을 클릭하여 발음을 들어보세요! ")
             }
             // Create the Anchor.
             val anchor = hitResult.createAnchor()
@@ -105,6 +110,7 @@ class ArcoreActivity : AppCompatActivity() {
             model.setParent(anchorNode)
             model.renderable = renderable
             model.select()
+            model.localPosition = Vector3(0F, 0.5F, 0F)
             model.rotationController.isEnabled = false
             //if model is tapped
             model.setOnTapListener {_, _ ->
